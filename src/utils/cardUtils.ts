@@ -6,10 +6,14 @@ interface RawCard {
   tier: string;
   cost: string;
   effect: string;
+  effect_values: {
+    food: number;
+    trash: number;
+    vp: number;
+  };
   keywords: string[];
   resourceType: string[];
   cardType: string;
-  victoryPoints: number | string;
   flavor: string;
   quantity: number;
 }

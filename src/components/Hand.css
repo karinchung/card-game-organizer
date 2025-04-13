@@ -1,0 +1,41 @@
+.hand {
+  padding: 20px;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  margin: 20px 0;
+}
+
+.hand h3 {
+  margin: 0 0 15px 0;
+  color: #61dafb;
+}
+
+.hand-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.card-container {
+  position: relative;
+  min-width: 200px;
+}
+
+.card-count {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background-color: #61dafb;
+  color: #282c34;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 0.9em;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  border: 2px solid #282c34;
+} 

@@ -5,13 +5,18 @@
       "tier": "Basic",
       "cost": "0",
       "effect": "1 Food, 1 Trash",
+      "effect_values": {
+        "food": 1,
+        "trash": 1,
+        "vp": 0
+      },
       "keywords": [],
       "resourceType": [
         "Food",
         "Trash"
       ],
       "cardType": "Resource",
-      "victoryPoints": 0,
+      "victoryPointsText": "",
       "flavor": "",
       "quantity": 20
     },
@@ -20,6 +25,11 @@
       "tier": "Basic",
       "cost": "0",
       "effect": "2 Food",
+      "effect_values": {
+        "food": 2,
+        "trash": 0,
+        "vp": 0
+      },
       "keywords": [
         "Stackable"
       ],
@@ -27,7 +37,7 @@
         "Food"
       ],
       "cardType": "Resource",
-      "victoryPoints": 0,
+      "victoryPointsText": "",
       "flavor": "",
       "quantity": 20
     },
@@ -36,12 +46,17 @@
       "tier": "Basic",
       "cost": "0",
       "effect": "2 Trash",
+      "effect_values": {
+        "food": 0,
+        "trash": 2,
+        "vp": 0
+      },
       "keywords": [],
       "resourceType": [
         "Trash"
       ],
       "cardType": "Resource",
-      "victoryPoints": 0,
+      "victoryPointsText": "",
       "flavor": "",
       "quantity": 20
     },
@@ -50,13 +65,18 @@
       "tier": "Basic",
       "cost": "3 Trash",
       "effect": "",
+      "effect_values": {
+        "food": 0,
+        "trash": 0,
+        "vp": 1
+      },
       "keywords": [
         "Stackable",
         "Shiny"
       ],
       "resourceType": [],
       "cardType": "Den",
-      "victoryPoints": 1,
+      "victoryPointsText": "",
       "flavor": "",
       "quantity": 10
     },
@@ -65,12 +85,17 @@
       "tier": "Tier 1",
       "cost": "4 Food",
       "effect": "",
+      "effect_values": {
+        "food": 0,
+        "trash": 0,
+        "vp": 2
+      },
       "keywords": [
         "Shiny"
       ],
       "resourceType": [],
       "cardType": "Den",
-      "victoryPoints": 2,
+      "victoryPointsText": "",
       "flavor": "",
       "quantity": 1
     },
@@ -79,12 +104,17 @@
       "tier": "Tier 1",
       "cost": "3 Trash",
       "effect": "",
+      "effect_values": {
+        "food": 0,
+        "trash": 0,
+        "vp": 1
+      },
       "keywords": [
         "Stackable"
       ],
       "resourceType": [],
       "cardType": "Den",
-      "victoryPoints": 1,
+      "victoryPointsText": "",
       "flavor": "",
       "quantity": 1
     },
@@ -93,12 +123,17 @@
       "tier": "Tier 1",
       "cost": "2 Food 2 Trash",
       "effect": "",
+      "effect_values": {
+        "food": 0,
+        "trash": 0,
+        "vp": 0
+      },
       "keywords": [
         "Spiritual"
       ],
       "resourceType": [],
       "cardType": "Den",
-      "victoryPoints": "2 VP for every 3 Bananas Stacked",
+      "victoryPointsText": "2 VP for every 3 Bananas Stacked",
       "flavor": "",
       "quantity": 1
     },
@@ -107,12 +142,17 @@
       "tier": "Tier 1",
       "cost": "2 Food, 1 Trash",
       "effect": "Add 1 food during Spend phase",
+      "effect_values": {
+        "food": 0,
+        "trash": 0,
+        "vp": 0
+      },
       "keywords": [
         "Friend"
       ],
       "resourceType": [],
       "cardType": "Den",
-      "victoryPoints": 0,
+      "victoryPointsText": "",
       "flavor": "",
       "quantity": 1
     },
@@ -121,12 +161,17 @@
       "tier": "Tier 1",
       "cost": "3 trash",
       "effect": "Additional 1 Den slot",
+      "effect_values": {
+        "food": 0,
+        "trash": 0,
+        "vp": 0
+      },
       "keywords": [
         "Metal"
       ],
       "resourceType": [],
       "cardType": "Den",
-      "victoryPoints": 0,
+      "victoryPointsText": "",
       "flavor": "",
       "quantity": 4
     },
@@ -135,12 +180,17 @@
       "tier": "Tier 1",
       "cost": "5 Food",
       "effect": "Duplicates 1 Food Resource",
+      "effect_values": {
+        "food": 0,
+        "trash": 0,
+        "vp": 1
+      },
       "keywords": [
         "Friend"
       ],
       "resourceType": [],
       "cardType": "Den",
-      "victoryPoints": 1,
+      "victoryPointsText": "",
       "flavor": "",
       "quantity": 1
     },
@@ -149,12 +199,17 @@
       "tier": "Tier 1",
       "cost": "2 Food",
       "effect": "Replace a card from Tier 1 and 2 with a new card",
+      "effect_values": {
+        "food": 0,
+        "trash": 0,
+        "vp": 0
+      },
       "keywords": [
         "Spiritual"
       ],
       "resourceType": [],
       "cardType": "",
-      "victoryPoints": 0,
+      "victoryPointsText": "",
       "flavor": "",
       "quantity": 1
     },
@@ -163,12 +218,17 @@
       "tier": "Tier 1",
       "cost": "3 Food",
       "effect": "",
+      "effect_values": {
+        "food": 0,
+        "trash": 0,
+        "vp": 0
+      },
       "keywords": [
         "Friend"
       ],
       "resourceType": [],
       "cardType": "",
-      "victoryPoints": 0,
+      "victoryPointsText": "",
       "flavor": "",
       "quantity": 1
     },
@@ -177,12 +237,17 @@
       "tier": "Tier 1",
       "cost": "3 Trash",
       "effect": "Add 1 Trash during Spend phase, if you have 3 shiny cards, add 2",
+      "effect_values": {
+        "food": 0,
+        "trash": 0,
+        "vp": 0
+      },
       "keywords": [
         "Friend"
       ],
       "resourceType": [],
       "cardType": "Den",
-      "victoryPoints": 0,
+      "victoryPointsText": "",
       "flavor": "",
       "quantity": 1
     },
@@ -191,12 +256,17 @@
       "tier": "Tier 1",
       "cost": "3 Trash",
       "effect": "",
+      "effect_values": {
+        "food": 0,
+        "trash": 0,
+        "vp": 0
+      },
       "keywords": [
         "Metal"
       ],
       "resourceType": [],
       "cardType": "Den",
-      "victoryPoints": 0,
+      "victoryPointsText": "",
       "flavor": "",
       "quantity": 1
     },
@@ -205,12 +275,17 @@
       "tier": "Tier 1",
       "cost": "4 Food",
       "effect": "Prep phase: tap this card if it's not tapped, untap if it is tapped. If the card is untapped, collect a bottle cap",
+      "effect_values": {
+        "food": 0,
+        "trash": 0,
+        "vp": 0
+      },
       "keywords": [
         "Friend"
       ],
       "resourceType": [],
       "cardType": "Den",
-      "victoryPoints": 0,
+      "victoryPointsText": "",
       "flavor": "",
       "quantity": 1
     },
@@ -219,12 +294,17 @@
       "tier": "Tier 1",
       "cost": "2 Food 1 Trash",
       "effect": "Opens up a hidden market, take 2 from Tier 1 and 2 from Tier 2 and keep as a secret stash only you can purchase from",
+      "effect_values": {
+        "food": 0,
+        "trash": 0,
+        "vp": 0
+      },
       "keywords": [
         "Spiritual"
       ],
       "resourceType": [],
       "cardType": "Den",
-      "victoryPoints": 0,
+      "victoryPointsText": "",
       "flavor": "",
       "quantity": 1
     },
@@ -233,12 +313,17 @@
       "tier": "Tier 1",
       "cost": "4 Trash",
       "effect": "",
+      "effect_values": {
+        "food": 0,
+        "trash": 0,
+        "vp": 0
+      },
       "keywords": [
         "Metal"
       ],
       "resourceType": [],
       "cardType": "Den",
-      "victoryPoints": 0,
+      "victoryPointsText": "",
       "flavor": "",
       "quantity": 1
     },
@@ -247,12 +332,17 @@
       "tier": "Tier 1",
       "cost": "2 Food",
       "effect": "Take a second resource during the Gather phase",
+      "effect_values": {
+        "food": 0,
+        "trash": 0,
+        "vp": 0
+      },
       "keywords": [
         "Spiritual"
       ],
       "resourceType": [],
       "cardType": "Resource",
-      "victoryPoints": 0,
+      "victoryPointsText": "",
       "flavor": "",
       "quantity": 4
     },
@@ -261,6 +351,11 @@
       "tier": "Tier 1",
       "cost": "4 Food",
       "effect": "",
+      "effect_values": {
+        "food": 0,
+        "trash": 0,
+        "vp": 0
+      },
       "keywords": [
         "Spiritual"
       ],
@@ -268,7 +363,7 @@
         "Food"
       ],
       "cardType": "Resource",
-      "victoryPoints": 0,
+      "victoryPointsText": "",
       "flavor": "",
       "quantity": 4
     },
@@ -277,6 +372,11 @@
       "tier": "Tier 1",
       "cost": "2 Food, 2 Trash",
       "effect": "",
+      "effect_values": {
+        "food": 0,
+        "trash": 0,
+        "vp": 0
+      },
       "keywords": [
         "Friend"
       ],
@@ -285,7 +385,7 @@
         "Trash"
       ],
       "cardType": "Resource",
-      "victoryPoints": 0,
+      "victoryPointsText": "",
       "flavor": "",
       "quantity": 4
     },
@@ -294,6 +394,11 @@
       "tier": "Tier 1",
       "cost": "4 Trash",
       "effect": "",
+      "effect_values": {
+        "food": 0,
+        "trash": 0,
+        "vp": 0
+      },
       "keywords": [
         "Shiny"
       ],
@@ -301,7 +406,7 @@
         "Trash"
       ],
       "cardType": "Resource",
-      "victoryPoints": 0,
+      "victoryPointsText": "",
       "flavor": "",
       "quantity": 4
     },
@@ -310,12 +415,17 @@
       "tier": "Tier 1",
       "cost": "1 Food 1 Trash",
       "effect": "Replace a card, 2 Food, 2 Trash",
+      "effect_values": {
+        "food": 0,
+        "trash": 0,
+        "vp": 0
+      },
       "keywords": [
         "Spiritual"
       ],
       "resourceType": [],
       "cardType": "Resource",
-      "victoryPoints": 0,
+      "victoryPointsText": "",
       "flavor": "",
       "quantity": 1
     },
@@ -324,12 +434,17 @@
       "tier": "Tier 1",
       "cost": "4 Food 2 Trash",
       "effect": "Take a Tier 2 Resource for Free",
+      "effect_values": {
+        "food": 0,
+        "trash": 0,
+        "vp": 0
+      },
       "keywords": [
         "Friend"
       ],
       "resourceType": [],
       "cardType": "Resource",
-      "victoryPoints": 0,
+      "victoryPointsText": "",
       "flavor": "",
       "quantity": 1
     },
@@ -338,12 +453,17 @@
       "tier": "Tier 2",
       "cost": "5 Trash 2 Food",
       "effect": "",
+      "effect_values": {
+        "food": 0,
+        "trash": 0,
+        "vp": 3
+      },
       "keywords": [
         "Friend"
       ],
       "resourceType": [],
       "cardType": "Den",
-      "victoryPoints": "3 VP, 4 if you have a stack of trash",
+      "victoryPointsText": "3 VP, 4 if you have a stack of trash",
       "flavor": "",
       "quantity": 1
     },
@@ -352,12 +472,17 @@
       "tier": "Tier 2",
       "cost": "8 Trash",
       "effect": "During prep, you may take another basic card",
+      "effect_values": {
+        "food": 0,
+        "trash": 0,
+        "vp": 2
+      },
       "keywords": [
         "Metal"
       ],
       "resourceType": [],
       "cardType": "Den",
-      "victoryPoints": 2,
+      "victoryPointsText": "",
       "flavor": "",
       "quantity": 1
     },
@@ -366,12 +491,17 @@
       "tier": "Tier 2",
       "cost": "8 Food",
       "effect": "",
+      "effect_values": {
+        "food": 0,
+        "trash": 0,
+        "vp": 4
+      },
       "keywords": [
         "Shiny"
       ],
       "resourceType": [],
       "cardType": "Den",
-      "victoryPoints": 4,
+      "victoryPointsText": "",
       "flavor": "",
       "quantity": 1
     },
@@ -380,12 +510,17 @@
       "tier": "Tier 2",
       "cost": "3 Food 1 Trash",
       "effect": "Each turn, see an extra card from the top of the market in Tier 2, you may purchase that card this turn only.",
+      "effect_values": {
+        "food": 0,
+        "trash": 0,
+        "vp": 0
+      },
       "keywords": [
         "Spiritual"
       ],
       "resourceType": [],
       "cardType": "Den",
-      "victoryPoints": 0,
+      "victoryPointsText": "",
       "flavor": "",
       "quantity": 1
     },
@@ -394,12 +529,17 @@
       "tier": "Tier 2",
       "cost": "2 Food 4 Trash",
       "effect": "During Prep, add 3 Trash, If you have 3 shiny cards, add 4 instead",
+      "effect_values": {
+        "food": 0,
+        "trash": 0,
+        "vp": 0
+      },
       "keywords": [
         "Friend"
       ],
       "resourceType": [],
       "cardType": "Den",
-      "victoryPoints": 0,
+      "victoryPointsText": "",
       "flavor": "",
       "quantity": 1
     },
@@ -408,12 +548,17 @@
       "tier": "Tier 2",
       "cost": "4 Food 2 Trash",
       "effect": "During the prepare phase may pay 2 Food to get a Tier 1 Card off the top of the deck",
+      "effect_values": {
+        "food": 0,
+        "trash": 0,
+        "vp": 0
+      },
       "keywords": [
         "Friend"
       ],
       "resourceType": [],
       "cardType": "Den",
-      "victoryPoints": 0,
+      "victoryPointsText": "",
       "flavor": "",
       "quantity": 1
     },
@@ -422,12 +567,17 @@
       "tier": "Tier 2",
       "cost": "8 Food",
       "effect": "Feed (spend) 2 Food to purchase a second time in the Explore phase",
+      "effect_values": {
+        "food": 0,
+        "trash": 0,
+        "vp": 0
+      },
       "keywords": [
         "Friend"
       ],
       "resourceType": [],
       "cardType": "",
-      "victoryPoints": 0,
+      "victoryPointsText": "",
       "flavor": "",
       "quantity": 1
     },
@@ -436,12 +586,17 @@
       "tier": "Tier 2",
       "cost": "8 Trash 2 Food",
       "effect": "You are able to purchase twice in the Explore phase",
+      "effect_values": {
+        "food": 0,
+        "trash": 0,
+        "vp": 2
+      },
       "keywords": [
         "Metal"
       ],
       "resourceType": [],
       "cardType": "Den",
-      "victoryPoints": 2,
+      "victoryPointsText": "",
       "flavor": "",
       "quantity": 1
     },
@@ -450,12 +605,17 @@
       "tier": "Tier 2",
       "cost": "8 Trash",
       "effect": "During Prep, collect twice from one resource card instead of once",
+      "effect_values": {
+        "food": 0,
+        "trash": 0,
+        "vp": 1
+      },
       "keywords": [
         "Metal"
       ],
       "resourceType": [],
       "cardType": "Den",
-      "victoryPoints": 1,
+      "victoryPointsText": "",
       "flavor": "",
       "quantity": 1
     },
@@ -464,12 +624,17 @@
       "tier": "Tier 2",
       "cost": "7 trash 2 Food",
       "effect": "Duplicate any shiny den card and stack them",
+      "effect_values": {
+        "food": 0,
+        "trash": 0,
+        "vp": 0
+      },
       "keywords": [
         "Spiritual"
       ],
       "resourceType": [],
       "cardType": "Resource",
-      "victoryPoints": 0,
+      "victoryPointsText": "",
       "flavor": "",
       "quantity": 1
     },
@@ -478,12 +643,17 @@
       "tier": "Tier 2",
       "cost": "4 Food 4 Trash",
       "effect": "",
+      "effect_values": {
+        "food": 0,
+        "trash": 0,
+        "vp": 0
+      },
       "keywords": [
         "Friend"
       ],
       "resourceType": [],
       "cardType": "Resource",
-      "victoryPoints": 0,
+      "victoryPointsText": "",
       "flavor": "",
       "quantity": 4
     },
@@ -492,12 +662,17 @@
       "tier": "Tier 2",
       "cost": "6 Food",
       "effect": "",
+      "effect_values": {
+        "food": 0,
+        "trash": 0,
+        "vp": 0
+      },
       "keywords": [
         "Spiritual"
       ],
       "resourceType": [],
       "cardType": "Resource",
-      "victoryPoints": 0,
+      "victoryPointsText": "",
       "flavor": "",
       "quantity": 4
     },
@@ -506,12 +681,17 @@
       "tier": "Tier 2",
       "cost": "6 Trash",
       "effect": "",
+      "effect_values": {
+        "food": 0,
+        "trash": 0,
+        "vp": 0
+      },
       "keywords": [
         "Metal"
       ],
       "resourceType": [],
       "cardType": "Resource",
-      "victoryPoints": 0,
+      "victoryPointsText": "",
       "flavor": "",
       "quantity": 4
     },
@@ -520,12 +700,17 @@
       "tier": "Tier 2",
       "cost": "3 Trash 4 Food",
       "effect": "",
+      "effect_values": {
+        "food": 0,
+        "trash": 0,
+        "vp": 0
+      },
       "keywords": [
         "Shiny"
       ],
       "resourceType": [],
       "cardType": "Resource",
-      "victoryPoints": 0,
+      "victoryPointsText": "",
       "flavor": "",
       "quantity": 4
     },
@@ -534,10 +719,15 @@
       "tier": "Tier 2",
       "cost": "5 Food",
       "effect": "",
+      "effect_values": {
+        "food": 0,
+        "trash": 0,
+        "vp": 0
+      },
       "keywords": [],
       "resourceType": [],
       "cardType": "Resource",
-      "victoryPoints": 0,
+      "victoryPointsText": "",
       "flavor": "",
       "quantity": 4
     },
@@ -546,12 +736,17 @@
       "tier": "Tier 3",
       "cost": "10 Trash, must have 3 shiny cards",
       "effect": "Triggers the Final Round",
+      "effect_values": {
+        "food": 0,
+        "trash": 0,
+        "vp": 3
+      },
       "keywords": [
         "Shiny"
       ],
       "resourceType": [],
       "cardType": "Den",
-      "victoryPoints": 3,
+      "victoryPointsText": "",
       "flavor": "",
       "quantity": 1
     },
@@ -560,12 +755,17 @@
       "tier": "Tier 3",
       "cost": "5 Food 5 Trash, must have 3 spiritual cards",
       "effect": "Triggers the Final Round",
+      "effect_values": {
+        "food": 0,
+        "trash": 0,
+        "vp": 3
+      },
       "keywords": [
         "Spiritual"
       ],
       "resourceType": [],
       "cardType": "Den",
-      "victoryPoints": 3,
+      "victoryPointsText": "",
       "flavor": "",
       "quantity": 1
     },
@@ -574,12 +774,17 @@
       "tier": "Tier 3",
       "cost": "10 Food, must have a stack of 3+ bananas",
       "effect": "Triggers the Final Round",
+      "effect_values": {
+        "food": 0,
+        "trash": 0,
+        "vp": 3
+      },
       "keywords": [
         "Stackable"
       ],
       "resourceType": [],
       "cardType": "Den",
-      "victoryPoints": 3,
+      "victoryPointsText": "",
       "flavor": "",
       "quantity": 1
     },
@@ -588,12 +793,17 @@
       "tier": "Tier 3",
       "cost": "5 Food 5 Trash, must have 3 friend cards",
       "effect": "Triggers the Final Round",
+      "effect_values": {
+        "food": 0,
+        "trash": 0,
+        "vp": 3
+      },
       "keywords": [
         "Friend"
       ],
       "resourceType": [],
       "cardType": "Den",
-      "victoryPoints": 3,
+      "victoryPointsText": "",
       "flavor": "",
       "quantity": 1
     },
@@ -602,12 +812,17 @@
       "tier": "Tier 3",
       "cost": "10 Metal, must have 3 metal cards",
       "effect": "Triggers the Final Round",
+      "effect_values": {
+        "food": 0,
+        "trash": 0,
+        "vp": 3
+      },
       "keywords": [
         "Metal"
       ],
       "resourceType": [],
       "cardType": "Den",
-      "victoryPoints": 3,
+      "victoryPointsText": "",
       "flavor": "",
       "quantity": 1
     },
@@ -616,10 +831,15 @@
       "tier": "Tier 3",
       "cost": "5 Food, 5 Trash, 1 of each type",
       "effect": "Triggers the Final Round",
+      "effect_values": {
+        "food": 0,
+        "trash": 0,
+        "vp": 4
+      },
       "keywords": [],
       "resourceType": [],
       "cardType": "Den",
-      "victoryPoints": 4,
+      "victoryPointsText": "",
       "flavor": "",
       "quantity": 1
     },
@@ -628,10 +848,15 @@
       "tier": "Tier 1",
       "cost": "0",
       "effect": "",
+      "effect_values": {
+        "food": 0,
+        "trash": 0,
+        "vp": 0
+      },
       "keywords": [],
       "resourceType": [],
       "cardType": "Den",
-      "victoryPoints": 0,
+      "victoryPointsText": "",
       "flavor": "",
       "quantity": 1
     },
@@ -640,10 +865,15 @@
       "tier": "Tier 1",
       "cost": "3 Food 1 Trash",
       "effect": "",
+      "effect_values": {
+        "food": 0,
+        "trash": 0,
+        "vp": 0
+      },
       "keywords": [],
       "resourceType": [],
       "cardType": "Den",
-      "victoryPoints": 0,
+      "victoryPointsText": "",
       "flavor": "",
       "quantity": 1
     },
@@ -652,10 +882,15 @@
       "tier": "Tier 1",
       "cost": "2 Trash 2 Food",
       "effect": "Instead of removing your resource card from the game, place it on top of the den, play it once more and then trash it.",
+      "effect_values": {
+        "food": 0,
+        "trash": 0,
+        "vp": 0
+      },
       "keywords": [],
       "resourceType": [],
       "cardType": "Den",
-      "victoryPoints": 0,
+      "victoryPointsText": "",
       "flavor": "",
       "quantity": 1
     }

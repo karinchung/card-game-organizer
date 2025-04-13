@@ -4,10 +4,14 @@ interface Card {
     tier: Tier;
     cost: string;
     effect: string;
+    effect_values: {
+      food: number;
+      trash: number;
+      vp: number;
+    };
     keywords: Keyword[];
     resourceType: ResourceType[];
     cardType: CardType;
-    victoryPoints: number | string;
     flavor: string;
     quantity: number;
   }
@@ -29,10 +33,14 @@ interface Card {
       tier: "Basic",
       cost: "0",
       effect: "",
+      effect_values: {
+        food: 0,
+        trash: 0,
+        vp: 0
+      },
       keywords: [],
       resourceType: [],
       cardType: "",
-      victoryPoints: 0,
       flavor: "",
       quantity: 1
     };

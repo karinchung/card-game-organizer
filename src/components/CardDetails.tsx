@@ -44,9 +44,13 @@ const CardDetails: React.FC<CardDetailsProps> = ({ card, onBack, onEdit }) => {
           </div>
         )}
         
-        {typeof card.victoryPoints === 'number' && card.victoryPoints > 0 && (
-          <div className="card-details-vp">
-            <strong>Victory Points:</strong> {card.victoryPoints}
+        {card.effect_values?.vp > 0 && (
+          <div className="card-detail">
+            <span className="card-detail-label">Victory Points:</span>
+            <span className="card-detail-value">{card.effect_values.vp}</span>
+            {card.victoryPointsText && (
+              <span className="card-detail-text">({card.victoryPointsText})</span>
+            )}
           </div>
         )}
         
