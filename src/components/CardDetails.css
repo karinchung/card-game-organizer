@@ -1,0 +1,126 @@
+.card-details {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.card-details-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.back-button, .edit-button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s;
+}
+
+.back-button {
+  background-color: #282c34;
+  color: #61dafb;
+}
+
+.back-button:hover {
+  background-color: #3a3f4b;
+}
+
+.edit-button {
+  background-color: #61dafb;
+  color: #282c34;
+}
+
+.edit-button:hover {
+  background-color: #4fa8d1;
+}
+
+.card-details-content {
+  background-color: #1a1c20;
+  border-radius: 10px;
+  padding: 30px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border: 2px solid #61dafb;
+}
+
+.card-details-content.basic { border-color: #808080; }
+.card-details-content.tier-1 { border-color: #4CAF50; }
+.card-details-content.tier-2 { border-color: #2196F3; }
+.card-details-content.tier-3 { border-color: #9C27B0; }
+
+.card-details-header-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid rgba(97, 218, 251, 0.3);
+}
+
+.card-details-name {
+  margin: 0;
+  font-size: 1.8em;
+  color: #61dafb;
+}
+
+.card-details-cost {
+  background-color: #61dafb;
+  color: #282c34;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
+.card-details-tier {
+  margin-bottom: 20px;
+}
+
+.tier-badge {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: 0.9em;
+}
+
+.card-details-content.basic .tier-badge {
+  background-color: #808080;
+  color: white;
+}
+
+.card-details-content.tier-1 .tier-badge {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.card-details-content.tier-2 .tier-badge {
+  background-color: #2196F3;
+  color: white;
+}
+
+.card-details-content.tier-3 .tier-badge {
+  background-color: #9C27B0;
+  color: white;
+}
+
+.card-details-type,
+.card-details-effect,
+.card-details-keywords,
+.card-details-vp,
+.card-details-flavor,
+.card-details-quantity {
+  margin-bottom: 15px;
+  line-height: 1.5;
+}
+
+.card-details-flavor {
+  font-style: italic;
+  color: #888;
+  padding: 10px 0;
+  border-top: 1px dashed rgba(97, 218, 251, 0.3);
+  border-bottom: 1px dashed rgba(97, 218, 251, 0.3);
+  margin: 20px 0;
+} 

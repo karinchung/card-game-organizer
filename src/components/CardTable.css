@@ -1,0 +1,74 @@
+.card-table-container {
+  width: 100%;
+  margin-bottom: 30px;
+  margin-top: 20px;
+}
+
+.tier-section {
+  margin-bottom: 40px;
+}
+
+.tier-header {
+  color: #61dafb;
+  margin-bottom: 15px;
+  text-align: left;
+  padding-bottom: 5px;
+  border-bottom: 1px solid rgba(97, 218, 251, 0.3);
+}
+
+.card-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #1a1c20;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.card-table th,
+.card-table td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #444;
+}
+
+.card-table th {
+  background-color: #282c34;
+  color: #61dafb;
+  font-weight: bold;
+}
+
+.card-row {
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.card-row:hover {
+  background-color: #2a2e38;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.edit-button {
+  background-color: #61dafb;
+  color: #282c34;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.edit-button:hover {
+  background-color: #4fa8d1;
+}
+
+/* Tier-specific styling */
+.tier-section:nth-child(1) .tier-header { color: #808080; }
+.tier-section:nth-child(2) .tier-header { color: #4CAF50; }
+.tier-section:nth-child(3) .tier-header { color: #2196F3; }
+.tier-section:nth-child(4) .tier-header { color: #9C27B0; } 

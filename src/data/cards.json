@@ -1,0 +1,663 @@
+{
+  "cards": [
+    {
+      "name": "Dumpster Dive",
+      "tier": "Basic",
+      "cost": "0",
+      "effect": "1 Food, 1 Trash",
+      "keywords": [],
+      "resourceType": [
+        "Food",
+        "Trash"
+      ],
+      "cardType": "Resource",
+      "victoryPoints": 0,
+      "flavor": "",
+      "quantity": 20
+    },
+    {
+      "name": "Banana Peel",
+      "tier": "Basic",
+      "cost": "0",
+      "effect": "2 Food",
+      "keywords": [
+        "Stackable"
+      ],
+      "resourceType": [
+        "Food"
+      ],
+      "cardType": "Resource",
+      "victoryPoints": 0,
+      "flavor": "",
+      "quantity": 20
+    },
+    {
+      "name": "Metal Scraps",
+      "tier": "Basic",
+      "cost": "0",
+      "effect": "2 Trash",
+      "keywords": [],
+      "resourceType": [
+        "Trash"
+      ],
+      "cardType": "Resource",
+      "victoryPoints": 0,
+      "flavor": "",
+      "quantity": 20
+    },
+    {
+      "name": "Bottle Cap",
+      "tier": "Basic",
+      "cost": "3 Trash",
+      "effect": "",
+      "keywords": [
+        "Stackable",
+        "Shiny"
+      ],
+      "resourceType": [],
+      "cardType": "Den",
+      "victoryPoints": 1,
+      "flavor": "",
+      "quantity": 10
+    },
+    {
+      "name": "Trash Shrine",
+      "tier": "Tier 1",
+      "cost": "4 Food",
+      "effect": "",
+      "keywords": [
+        "Shiny"
+      ],
+      "resourceType": [],
+      "cardType": "Den",
+      "victoryPoints": 2,
+      "flavor": "",
+      "quantity": 1
+    },
+    {
+      "name": "Shiny Flatwear",
+      "tier": "Tier 1",
+      "cost": "3 Trash",
+      "effect": "",
+      "keywords": [
+        "Stackable"
+      ],
+      "resourceType": [],
+      "cardType": "Den",
+      "victoryPoints": 1,
+      "flavor": "",
+      "quantity": 1
+    },
+    {
+      "name": "Banana Cleric",
+      "tier": "Tier 1",
+      "cost": "2 Food 2 Trash",
+      "effect": "",
+      "keywords": [
+        "Spiritual"
+      ],
+      "resourceType": [],
+      "cardType": "Den",
+      "victoryPoints": "2 VP for every 3 Bananas Stacked",
+      "flavor": "",
+      "quantity": 1
+    },
+    {
+      "name": "Squirrel Network",
+      "tier": "Tier 1",
+      "cost": "2 Food, 1 Trash",
+      "effect": "Add 1 food during Spend phase",
+      "keywords": [
+        "Friend"
+      ],
+      "resourceType": [],
+      "cardType": "Den",
+      "victoryPoints": 0,
+      "flavor": "",
+      "quantity": 1
+    },
+    {
+      "name": "Makeshift Fort",
+      "tier": "Tier 1",
+      "cost": "3 trash",
+      "effect": "Additional 1 Den slot",
+      "keywords": [
+        "Metal"
+      ],
+      "resourceType": [],
+      "cardType": "Den",
+      "victoryPoints": 0,
+      "flavor": "",
+      "quantity": 4
+    },
+    {
+      "name": "Sentient Mold",
+      "tier": "Tier 1",
+      "cost": "5 Food",
+      "effect": "Duplicates 1 Food Resource",
+      "keywords": [
+        "Friend"
+      ],
+      "resourceType": [],
+      "cardType": "Den",
+      "victoryPoints": 1,
+      "flavor": "",
+      "quantity": 1
+    },
+    {
+      "name": "Mysterious Orb",
+      "tier": "Tier 1",
+      "cost": "2 Food",
+      "effect": "Replace a card from Tier 1 and 2 with a new card",
+      "keywords": [
+        "Spiritual"
+      ],
+      "resourceType": [],
+      "cardType": "",
+      "victoryPoints": 0,
+      "flavor": "",
+      "quantity": 1
+    },
+    {
+      "name": "Cat Guardian",
+      "tier": "Tier 1",
+      "cost": "3 Food",
+      "effect": "",
+      "keywords": [
+        "Friend"
+      ],
+      "resourceType": [],
+      "cardType": "",
+      "victoryPoints": 0,
+      "flavor": "",
+      "quantity": 1
+    },
+    {
+      "name": "Crow Buddy",
+      "tier": "Tier 1",
+      "cost": "3 Trash",
+      "effect": "Add 1 Trash during Spend phase, if you have 3 shiny cards, add 2",
+      "keywords": [
+        "Friend"
+      ],
+      "resourceType": [],
+      "cardType": "Den",
+      "victoryPoints": 0,
+      "flavor": "",
+      "quantity": 1
+    },
+    {
+      "name": "Tin Can Helmet",
+      "tier": "Tier 1",
+      "cost": "3 Trash",
+      "effect": "",
+      "keywords": [
+        "Metal"
+      ],
+      "resourceType": [],
+      "cardType": "Den",
+      "victoryPoints": 0,
+      "flavor": "",
+      "quantity": 1
+    },
+    {
+      "name": "Snail Mail",
+      "tier": "Tier 1",
+      "cost": "4 Food",
+      "effect": "Prep phase: tap this card if it's not tapped, untap if it is tapped. If the card is untapped, collect a bottle cap",
+      "keywords": [
+        "Friend"
+      ],
+      "resourceType": [],
+      "cardType": "Den",
+      "victoryPoints": 0,
+      "flavor": "",
+      "quantity": 1
+    },
+    {
+      "name": "Mossy Trash Idol",
+      "tier": "Tier 1",
+      "cost": "2 Food 1 Trash",
+      "effect": "Opens up a hidden market, take 2 from Tier 1 and 2 from Tier 2 and keep as a secret stash only you can purchase from",
+      "keywords": [
+        "Spiritual"
+      ],
+      "resourceType": [],
+      "cardType": "Den",
+      "victoryPoints": 0,
+      "flavor": "",
+      "quantity": 1
+    },
+    {
+      "name": "Night Goggles",
+      "tier": "Tier 1",
+      "cost": "4 Trash",
+      "effect": "",
+      "keywords": [
+        "Metal"
+      ],
+      "resourceType": [],
+      "cardType": "Den",
+      "victoryPoints": 0,
+      "flavor": "",
+      "quantity": 1
+    },
+    {
+      "name": "Power Up Potion",
+      "tier": "Tier 1",
+      "cost": "2 Food",
+      "effect": "Take a second resource during the Gather phase",
+      "keywords": [
+        "Spiritual"
+      ],
+      "resourceType": [],
+      "cardType": "Resource",
+      "victoryPoints": 0,
+      "flavor": "",
+      "quantity": 4
+    },
+    {
+      "name": "Not a Normal Mushroom",
+      "tier": "Tier 1",
+      "cost": "4 Food",
+      "effect": "",
+      "keywords": [
+        "Spiritual"
+      ],
+      "resourceType": [
+        "Food"
+      ],
+      "cardType": "Resource",
+      "victoryPoints": 0,
+      "flavor": "",
+      "quantity": 4
+    },
+    {
+      "name": "Gifts from Above",
+      "tier": "Tier 1",
+      "cost": "2 Food, 2 Trash",
+      "effect": "",
+      "keywords": [
+        "Friend"
+      ],
+      "resourceType": [
+        "Food",
+        "Trash"
+      ],
+      "cardType": "Resource",
+      "victoryPoints": 0,
+      "flavor": "",
+      "quantity": 4
+    },
+    {
+      "name": "Cracked Soda Can",
+      "tier": "Tier 1",
+      "cost": "4 Trash",
+      "effect": "",
+      "keywords": [
+        "Shiny"
+      ],
+      "resourceType": [
+        "Trash"
+      ],
+      "cardType": "Resource",
+      "victoryPoints": 0,
+      "flavor": "",
+      "quantity": 4
+    },
+    {
+      "name": "Premonition of Garbage",
+      "tier": "Tier 1",
+      "cost": "1 Food 1 Trash",
+      "effect": "Replace a card, 2 Food, 2 Trash",
+      "keywords": [
+        "Spiritual"
+      ],
+      "resourceType": [],
+      "cardType": "Resource",
+      "victoryPoints": 0,
+      "flavor": "",
+      "quantity": 1
+    },
+    {
+      "name": "Pigeon Potluck",
+      "tier": "Tier 1",
+      "cost": "4 Food 2 Trash",
+      "effect": "Take a Tier 2 Resource for Free",
+      "keywords": [
+        "Friend"
+      ],
+      "resourceType": [],
+      "cardType": "Resource",
+      "victoryPoints": 0,
+      "flavor": "",
+      "quantity": 1
+    },
+    {
+      "name": "Corvid Gift",
+      "tier": "Tier 2",
+      "cost": "5 Trash 2 Food",
+      "effect": "",
+      "keywords": [
+        "Friend"
+      ],
+      "resourceType": [],
+      "cardType": "Den",
+      "victoryPoints": "3 VP, 4 if you have a stack of trash",
+      "flavor": "",
+      "quantity": 1
+    },
+    {
+      "name": "Robo Raccoon",
+      "tier": "Tier 2",
+      "cost": "8 Trash",
+      "effect": "During prep, you may take another basic card",
+      "keywords": [
+        "Metal"
+      ],
+      "resourceType": [],
+      "cardType": "Den",
+      "victoryPoints": 2,
+      "flavor": "",
+      "quantity": 1
+    },
+    {
+      "name": "Dumpster Goblet",
+      "tier": "Tier 2",
+      "cost": "8 Food",
+      "effect": "",
+      "keywords": [
+        "Shiny"
+      ],
+      "resourceType": [],
+      "cardType": "Den",
+      "victoryPoints": 4,
+      "flavor": "",
+      "quantity": 1
+    },
+    {
+      "name": "Back Alley Oracle",
+      "tier": "Tier 2",
+      "cost": "3 Food 1 Trash",
+      "effect": "Each turn, see an extra card from the top of the market in Tier 2, you may purchase that card this turn only.",
+      "keywords": [
+        "Spiritual"
+      ],
+      "resourceType": [],
+      "cardType": "Den",
+      "victoryPoints": 0,
+      "flavor": "",
+      "quantity": 1
+    },
+    {
+      "name": "Crow Funeral",
+      "tier": "Tier 2",
+      "cost": "2 Food 4 Trash",
+      "effect": "During Prep, add 3 Trash, If you have 3 shiny cards, add 4 instead",
+      "keywords": [
+        "Friend"
+      ],
+      "resourceType": [],
+      "cardType": "Den",
+      "victoryPoints": 0,
+      "flavor": "",
+      "quantity": 1
+    },
+    {
+      "name": "Squirrel Mafia",
+      "tier": "Tier 2",
+      "cost": "4 Food 2 Trash",
+      "effect": "During the prepare phase may pay 2 Food to get a Tier 1 Card off the top of the deck",
+      "keywords": [
+        "Friend"
+      ],
+      "resourceType": [],
+      "cardType": "Den",
+      "victoryPoints": 0,
+      "flavor": "",
+      "quantity": 1
+    },
+    {
+      "name": "Cat Familiar",
+      "tier": "Tier 2",
+      "cost": "8 Food",
+      "effect": "Feed (spend) 2 Food to purchase a second time in the Explore phase",
+      "keywords": [
+        "Friend"
+      ],
+      "resourceType": [],
+      "cardType": "",
+      "victoryPoints": 0,
+      "flavor": "",
+      "quantity": 1
+    },
+    {
+      "name": "Clone Machine",
+      "tier": "Tier 2",
+      "cost": "8 Trash 2 Food",
+      "effect": "You are able to purchase twice in the Explore phase",
+      "keywords": [
+        "Metal"
+      ],
+      "resourceType": [],
+      "cardType": "Den",
+      "victoryPoints": 2,
+      "flavor": "",
+      "quantity": 1
+    },
+    {
+      "name": "Exo skeletal hand doubler",
+      "tier": "Tier 2",
+      "cost": "8 Trash",
+      "effect": "During Prep, collect twice from one resource card instead of once",
+      "keywords": [
+        "Metal"
+      ],
+      "resourceType": [],
+      "cardType": "Den",
+      "victoryPoints": 1,
+      "flavor": "",
+      "quantity": 1
+    },
+    {
+      "name": "Dopple-Garbage",
+      "tier": "Tier 2",
+      "cost": "7 trash 2 Food",
+      "effect": "Duplicate any shiny den card and stack them",
+      "keywords": [
+        "Spiritual"
+      ],
+      "resourceType": [],
+      "cardType": "Resource",
+      "victoryPoints": 0,
+      "flavor": "",
+      "quantity": 1
+    },
+    {
+      "name": "Trash Fire Distraction",
+      "tier": "Tier 2",
+      "cost": "4 Food 4 Trash",
+      "effect": "",
+      "keywords": [
+        "Friend"
+      ],
+      "resourceType": [],
+      "cardType": "Resource",
+      "victoryPoints": 0,
+      "flavor": "",
+      "quantity": 4
+    },
+    {
+      "name": "Sacred Vending Machine",
+      "tier": "Tier 2",
+      "cost": "6 Food",
+      "effect": "",
+      "keywords": [
+        "Spiritual"
+      ],
+      "resourceType": [],
+      "cardType": "Resource",
+      "victoryPoints": 0,
+      "flavor": "",
+      "quantity": 4
+    },
+    {
+      "name": "Overrun Factory",
+      "tier": "Tier 2",
+      "cost": "6 Trash",
+      "effect": "",
+      "keywords": [
+        "Metal"
+      ],
+      "resourceType": [],
+      "cardType": "Resource",
+      "victoryPoints": 0,
+      "flavor": "",
+      "quantity": 4
+    },
+    {
+      "name": "Hoarder's Den",
+      "tier": "Tier 2",
+      "cost": "3 Trash 4 Food",
+      "effect": "",
+      "keywords": [
+        "Shiny"
+      ],
+      "resourceType": [],
+      "cardType": "Resource",
+      "victoryPoints": 0,
+      "flavor": "",
+      "quantity": 4
+    },
+    {
+      "name": "Greasy Leftovers",
+      "tier": "Tier 2",
+      "cost": "5 Food",
+      "effect": "",
+      "keywords": [],
+      "resourceType": [],
+      "cardType": "Resource",
+      "victoryPoints": 0,
+      "flavor": "",
+      "quantity": 4
+    },
+    {
+      "name": "Crown of Clutter",
+      "tier": "Tier 3",
+      "cost": "10 Trash, must have 3 shiny cards",
+      "effect": "Triggers the Final Round",
+      "keywords": [
+        "Shiny"
+      ],
+      "resourceType": [],
+      "cardType": "Den",
+      "victoryPoints": 3,
+      "flavor": "",
+      "quantity": 1
+    },
+    {
+      "name": "Astral Garbage Can",
+      "tier": "Tier 3",
+      "cost": "5 Food 5 Trash, must have 3 spiritual cards",
+      "effect": "Triggers the Final Round",
+      "keywords": [
+        "Spiritual"
+      ],
+      "resourceType": [],
+      "cardType": "Den",
+      "victoryPoints": 3,
+      "flavor": "",
+      "quantity": 1
+    },
+    {
+      "name": "Pyramid of Bananas",
+      "tier": "Tier 3",
+      "cost": "10 Food, must have a stack of 3+ bananas",
+      "effect": "Triggers the Final Round",
+      "keywords": [
+        "Stackable"
+      ],
+      "resourceType": [],
+      "cardType": "Den",
+      "victoryPoints": 3,
+      "flavor": "",
+      "quantity": 1
+    },
+    {
+      "name": "Friend of Animals",
+      "tier": "Tier 3",
+      "cost": "5 Food 5 Trash, must have 3 friend cards",
+      "effect": "Triggers the Final Round",
+      "keywords": [
+        "Friend"
+      ],
+      "resourceType": [],
+      "cardType": "Den",
+      "victoryPoints": 3,
+      "flavor": "",
+      "quantity": 1
+    },
+    {
+      "name": "Mechanical Evolution",
+      "tier": "Tier 3",
+      "cost": "10 Metal, must have 3 metal cards",
+      "effect": "Triggers the Final Round",
+      "keywords": [
+        "Metal"
+      ],
+      "resourceType": [],
+      "cardType": "Den",
+      "victoryPoints": 3,
+      "flavor": "",
+      "quantity": 1
+    },
+    {
+      "name": "Omni-Trash",
+      "tier": "Tier 3",
+      "cost": "5 Food, 5 Trash, 1 of each type",
+      "effect": "Triggers the Final Round",
+      "keywords": [],
+      "resourceType": [],
+      "cardType": "Den",
+      "victoryPoints": 4,
+      "flavor": "",
+      "quantity": 1
+    },
+    {
+      "name": "Trash Clergy Ritual",
+      "tier": "Tier 1",
+      "cost": "0",
+      "effect": "",
+      "keywords": [],
+      "resourceType": [],
+      "cardType": "Den",
+      "victoryPoints": 0,
+      "flavor": "",
+      "quantity": 1
+    },
+    {
+      "name": "Squirrel Scheme",
+      "tier": "Tier 1",
+      "cost": "3 Food 1 Trash",
+      "effect": "",
+      "keywords": [],
+      "resourceType": [],
+      "cardType": "Den",
+      "victoryPoints": 0,
+      "flavor": "",
+      "quantity": 1
+    },
+    {
+      "name": "Hideaway",
+      "tier": "Tier 1",
+      "cost": "2 Trash 2 Food",
+      "effect": "Instead of removing your resource card from the game, place it on top of the den, play it once more and then trash it.",
+      "keywords": [],
+      "resourceType": [],
+      "cardType": "Den",
+      "victoryPoints": 0,
+      "flavor": "",
+      "quantity": 1
+    }
+  ]
+}
