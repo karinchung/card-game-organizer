@@ -4,19 +4,11 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import lockfile from 'proper-lockfile';
 
-// Get the correct path for both local and Netlify environments
+// Get the path to the cards.json file in the functions directory
 const getCardsPath = () => {
-  try {
-    // Try to get the path relative to the function
-    const __filename = fileURLToPath(import.meta.url);
-    const functionDir = path.dirname(__filename);
-    const projectRoot = path.join(functionDir, '../..');
-    return path.join(projectRoot, 'data', 'cards.json');
-  } catch (error) {
-    console.error('Error getting cards path:', error);
-    // Fallback to process.cwd()
-    return path.join(process.cwd(), 'data', 'cards.json');
-  }
+  const __filename = fileURLToPath(import.meta.url);
+  const functionDir = path.dirname(__filename);
+  return path.join(functionDir, 'data', 'cards.json');
 };
 
 const CARDS_PATH = getCardsPath();
@@ -38,16 +30,16 @@ async function getCards() {
     
     // Ensure we have a valid cards array
     if (!parsedData || !parsedData.cards || !Array.isArray(parsedData.cards)) {
-      console.error('Invalid cards data structure:', parsedData);
-      throw new Error('Invalid cards data structure');
+      // Return a default structure if the data is invalid
+      return { cards: [] };
     }
     
     cardsCache = parsedData;
     lastCacheTime = Date.now();
     return cardsCache;
   } catch (error) {
-    console.error('Error reading cards:', error);
-    throw new Error('Failed to read cards');
+    // Return a default structure if there's an error
+    return { cards: [] };
   }
 }
 
@@ -77,7 +69,6 @@ async function updateCards(newCards) {
     cardsCache = newCards;
     lastCacheTime = Date.now();
   } catch (error) {
-    console.error('Error updating cards:', error);
     throw new Error('Failed to update cards');
   } finally {
     if (release) {
@@ -108,7 +99,6 @@ export const handler = async (event, context) => {
     if (event.httpMethod === 'GET') {
       const cardsData = await getCards();
       
-      // Ensure we're returning the correct structure
       return {
         statusCode: 200,
         headers: {
@@ -143,14 +133,13 @@ export const handler = async (event, context) => {
       body: JSON.stringify({ error: 'Method not allowed' }),
     };
   } catch (error) {
-    console.error('Error:', error);
     return {
       statusCode: 500,
       headers: {
         ...headers,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ error: 'Internal server error', details: error.message }),
+      body: JSON.stringify({ error: 'Internal server error' }),
     };
   }
 }; 

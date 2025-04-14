@@ -18,19 +18,28 @@ const API_URL = process.env.NODE_ENV === 'production'
 
 // Fetcher function for SWR
 const fetcher = async (url: string) => {
-  const response = await fetch(url);
-  if (!response.ok) {
-    throw new Error(`API error: ${response.status}`);
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      console.error(`API error: ${response.status}`);
+      // Return an empty array instead of throwing an error
+      return [];
+    }
+    const data = await response.json();
+    
+    // Check if data has the expected structure
+    if (!data || !data.cards || !Array.isArray(data.cards)) {
+      console.error('Invalid API response structure:', data);
+      // Return an empty array instead of throwing an error
+      return [];
+    }
+    
+    return convertToCards(data.cards);
+  } catch (error) {
+    console.error('Error fetching cards:', error);
+    // Return an empty array on any error
+    return [];
   }
-  const data = await response.json();
-  
-  // Check if data has the expected structure
-  if (!data || !data.cards || !Array.isArray(data.cards)) {
-    console.error('Invalid API response structure:', data);
-    throw new Error('Invalid API response structure');
-  }
-  
-  return convertToCards(data.cards);
 };
 
 const initialGameState: GameState = {
@@ -79,7 +88,12 @@ const App: React.FC = () => {
   };
 
   const initializeGame = useCallback((cards: Card[]) => {
-    if (!cards) return;
+    // Handle empty or undefined cards array
+    if (!cards || cards.length === 0) {
+      console.warn('No cards available, initializing with empty game state');
+      setGameState(initialGameState);
+      return;
+    }
 
     const shuffledCards = shuffleArray(cards);
 
@@ -287,7 +301,10 @@ const App: React.FC = () => {
   };
 
   const handleEditCard = (card: Card) => {
-    if (!allCards) return;
+    if (!allCards) {
+      console.error('Cannot edit card: allCards is undefined');
+      return;
+    }
 
     const updatedCards = [...allCards];
     const cardIndex = updatedCards.findIndex((c: Card) => c.name === card.name);
@@ -308,7 +325,11 @@ const App: React.FC = () => {
       },
       body: JSON.stringify({ cards: updatedCards }),
     })
-      .then(() => {
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`Failed to save card: ${response.status}`);
+        }
+        
         // Update the SWR cache with the new data
         // This will trigger a re-render of all components that use the allCards data
         mutateCards(updatedCards, false);
@@ -351,7 +372,8 @@ const App: React.FC = () => {
         });
       })
       .catch((error) => {
-        console.error('Error saving cards:', error);
+        console.error('Error saving card:', error);
+        // You could add a toast notification here to inform the user
       });
   };
 
