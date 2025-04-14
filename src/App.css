@@ -35,11 +35,19 @@
 }
 
 .game-container {
-  display: grid;
-  grid-template-columns: 1fr 2fr 1fr;
+  display: flex;
+  flex-direction: column;
   gap: 15px;
   padding: 15px;
   flex: 1;
+}
+
+/* Game-specific layout */
+.game-layout {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  gap: 15px;
+  width: 100%;
 }
 
 .game-board, .market, .hand {

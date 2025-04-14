@@ -3,6 +3,11 @@ export interface Card {
   name: string;
   tier: Tier;
   cost: string;
+  cost_values: {
+    food: number;
+    trash: number;
+  };
+  cost_text: string;
   effect: string;
   effect_values: {
     food: number;

@@ -3,21 +3,23 @@ import { Card as CardType } from '../types/cards';
 import { GameState } from '../types/game';
 import Card from './Card';
 import CardDetails from './CardDetails';
+import { useLocation } from 'react-router-dom';
 import './Hand.css';
 
 interface HandProps {
   gameState: GameState;
   onPlayCard: (card: CardType) => void;
-  onCardClick?: (card: CardType) => void;
+  onCardClick: (card: CardType) => void;
 }
 
 const Hand: React.FC<HandProps> = ({ gameState, onPlayCard, onCardClick }) => {
   const [selectedCard, setSelectedCard] = useState<CardType | null>(null);
+  const location = useLocation();
+  const isGameView = location.pathname === '/';
 
   const handleCardClick = (card: CardType) => {
-    if (onCardClick) {
-      onCardClick(card);
-    } else {
+    onCardClick(card);
+    if (!isGameView) {
       setSelectedCard(card);
     }
   };
@@ -53,10 +55,10 @@ const Hand: React.FC<HandProps> = ({ gameState, onPlayCard, onCardClick }) => {
 
   return (
     <div className="hand">
-      <h3>Your Hand ({gameState.hand.length}/10)</h3>
+      <h3>Your Hand</h3>
       <div className="hand-cards">
-        {Object.values(groupedCards).map(({ card, count }, index) => (
-          <div key={`${card.name}-${card.cost}-${index}`} className="card-container">
+        {Object.values(groupedCards).map(({ card, count }) => (
+          <div key={`${card.name}-${card.cost}`} className="card-container">
             <Card
               card={card}
               onClick={() => handleCardClick(card)}

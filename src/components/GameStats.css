@@ -1,0 +1,25 @@
+.game-stats {
+  background-color: rgba(40, 44, 52, 0.9);
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  color: white;
+  margin-bottom: 15px;
+  border-radius: 8px;
+}
+
+.stat-item {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.stat-label {
+  font-weight: bold;
+  color: #61dafb;
+}
+
+.stat-value {
+  font-size: 1.2em;
+} 

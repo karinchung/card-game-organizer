@@ -5,6 +5,7 @@ import { GameState } from './types/game';
 import GameBoard from './components/GameBoard';
 import Market from './components/Market';
 import Hand from './components/Hand';
+import GameStats from './components/GameStats';
 import Cards from './pages/Cards';
 import { convertToCards } from './utils/cardUtils';
 import './App.css';
@@ -30,6 +31,11 @@ const App: React.FC = () => {
   const [gameState, setGameState] = useState<GameState>(initialGameState);
   const [allCards, setAllCards] = useState<Card[]>([]);
   const [loading, setLoading] = useState(true);
+  const [gameStats, setGameStats] = useState({
+    food: 0,
+    trash: 0,
+    victoryPoints: 0
+  });
 
   useEffect(() => {
     fetchCards();
@@ -74,7 +80,37 @@ const App: React.FC = () => {
     setGameState(newGameState);
   };
 
+  const handleCardActivation = (card: Card) => {
+    setGameStats(prevStats => {
+      const newStats = { ...prevStats };
+      
+      // Check for food resources
+      if (card.resourceType?.includes('Food')) {
+        newStats.food += card.effect_values?.food || 1;
+      }
+      
+      // Check for trash resources
+      if (card.resourceType?.includes('Trash')) {
+        newStats.trash += card.effect_values?.trash || 1;
+      }
+      
+      // Check for victory points
+      if (card.effect_values?.vp) {
+        newStats.victoryPoints += card.effect_values.vp;
+      }
+      
+      return newStats;
+    });
+  };
+
   const handleCardClick = (card: Card) => {
+    // If the card is in the hand or on the board, activate it
+    if (gameState.hand.includes(card) || 
+        gameState.board.denCards.includes(card) || 
+        gameState.board.friendCards.includes(card)) {
+      handleCardActivation(card);
+    }
+    
     setGameState(prevState => {
       // If card is in hand or board, move it to trash
       if (prevState.hand.includes(card) || 
@@ -96,90 +132,103 @@ const App: React.FC = () => {
                          ...prevState.market.tier2, ...prevState.market.tier3].includes(card);
 
       if (isInMarket) {
-        // Special handling for basic cards in free market - they don't get removed
-        if (card.tier === "Basic" && prevState.market.freeMarket.includes(card)) {
-          // Create a duplicate of the card to add to hand or board
-          const cardDuplicate = { ...card };
-          
-          // Just add the card to hand or board without removing it from the market
-          if (card.cardType === "Den" && prevState.board.denCards.length < 6) {
-            return {
-              ...prevState,
-              board: {
-                ...prevState.board,
-                denCards: [...prevState.board.denCards, cardDuplicate]
-              }
-            };
-          } else if (card.cardType === "Ally") {
-            return {
-              ...prevState,
-              board: {
-                ...prevState.board,
-                friendCards: [...prevState.board.friendCards, cardDuplicate]
-              }
-            };
-          } else if (prevState.hand.length < 10) {
-            return {
-              ...prevState,
-              hand: [...prevState.hand, cardDuplicate]
-            };
-          }
-        } else {
-          // For non-basic cards, determine which market section the card is in
-          let marketSection: keyof typeof prevState.market = 'freeMarket';
-          if (prevState.market.tier1.includes(card)) marketSection = 'tier1';
-          else if (prevState.market.tier2.includes(card)) marketSection = 'tier2';
-          else if (prevState.market.tier3.includes(card)) marketSection = 'tier3';
+        // Check if player has enough resources to pay the cost
+        const costFood = card.cost_values?.food || 0;
+        const costTrash = card.cost_values?.trash || 0;
+        
+        if (gameStats.food >= costFood && gameStats.trash >= costTrash) {
+          // Subtract the cost from the player's resources
+          setGameStats(prevStats => ({
+            ...prevStats,
+            food: prevStats.food - costFood,
+            trash: prevStats.trash - costTrash
+          }));
 
-          // Find a replacement card from the same tier
-          const availableCards = allCards.filter(c => 
-            c.tier === card.tier && 
-            !prevState.market.freeMarket.includes(c) &&
-            !prevState.market.tier1.includes(c) &&
-            !prevState.market.tier2.includes(c) &&
-            !prevState.market.tier3.includes(c) &&
-            !prevState.hand.includes(c) &&
-            !prevState.board.denCards.includes(c) &&
-            !prevState.board.friendCards.includes(c)
-          );
+          // Special handling for basic cards in free market - they don't get removed
+          if (card.tier === "Basic" && prevState.market.freeMarket.includes(card)) {
+            // Create a duplicate of the card to add to hand or board
+            const cardDuplicate = { ...card };
+            
+            // Just add the card to hand or board without removing it from the market
+            if (card.cardType === "Den" && prevState.board.denCards.length < 6) {
+              return {
+                ...prevState,
+                board: {
+                  ...prevState.board,
+                  denCards: [...prevState.board.denCards, cardDuplicate]
+                }
+              };
+            } else if (card.cardType === "Ally") {
+              return {
+                ...prevState,
+                board: {
+                  ...prevState.board,
+                  friendCards: [...prevState.board.friendCards, cardDuplicate]
+                }
+              };
+            } else if (prevState.hand.length < 10) {
+              return {
+                ...prevState,
+                hand: [...prevState.hand, cardDuplicate]
+              };
+            }
+          } else {
+            // For non-basic cards, determine which market section the card is in
+            let marketSection: keyof typeof prevState.market = 'freeMarket';
+            if (prevState.market.tier1.includes(card)) marketSection = 'tier1';
+            else if (prevState.market.tier2.includes(card)) marketSection = 'tier2';
+            else if (prevState.market.tier3.includes(card)) marketSection = 'tier3';
 
-          const replacementCard = availableCards.length > 0 
-            ? shuffleArray(availableCards)[0] 
-            : null;
+            // Find a replacement card from the same tier
+            const availableCards = allCards.filter(c => 
+              c.tier === card.tier && 
+              !prevState.market.freeMarket.includes(c) &&
+              !prevState.market.tier1.includes(c) &&
+              !prevState.market.tier2.includes(c) &&
+              !prevState.market.tier3.includes(c) &&
+              !prevState.hand.includes(c) &&
+              !prevState.board.denCards.includes(c) &&
+              !prevState.board.friendCards.includes(c)
+            );
 
-          // Update the market section with the replacement card
-          const updatedMarket = {
-            ...prevState.market,
-            [marketSection]: prevState.market[marketSection]
-              .filter(c => c !== card)
-              .concat(replacementCard ? [replacementCard] : [])
-          };
+            const replacementCard = availableCards.length > 0 
+              ? shuffleArray(availableCards)[0] 
+              : null;
 
-          // Add the card to the appropriate location
-          if (card.cardType === "Den" && prevState.board.denCards.length < 6) {
-            return {
-              ...prevState,
-              board: {
-                ...prevState.board,
-                denCards: [...prevState.board.denCards, card]
-              },
-              market: updatedMarket
+            // Update the market section with the replacement card
+            const updatedMarket = {
+              ...prevState.market,
+              [marketSection]: prevState.market[marketSection]
+                .filter(c => c !== card)
+                .concat(replacementCard ? [replacementCard] : [])
             };
-          } else if (card.cardType === "Ally") {
-            return {
-              ...prevState,
-              board: {
-                ...prevState.board,
-                friendCards: [...prevState.board.friendCards, card]
-              },
-              market: updatedMarket
-            };
-          } else if (prevState.hand.length < 10) {
-            return {
-              ...prevState,
-              hand: [...prevState.hand, card],
-              market: updatedMarket
-            };
+
+            // Add the card to the appropriate location
+            if (card.cardType === "Den" && prevState.board.denCards.length < 6) {
+              return {
+                ...prevState,
+                board: {
+                  ...prevState.board,
+                  denCards: [...prevState.board.denCards, card]
+                },
+                market: updatedMarket
+              };
+            } else if (card.cardType === "Ally") {
+              return {
+                ...prevState,
+                board: {
+                  ...prevState.board,
+                  friendCards: [...prevState.board.friendCards, card]
+                },
+                market: updatedMarket
+              };
+            } else if (prevState.hand.length < 10) {
+              return {
+                ...prevState,
+                hand: [...prevState.hand, card],
+                market: updatedMarket
+              };
+            }
           }
         }
       }
@@ -194,12 +243,35 @@ const App: React.FC = () => {
 
   const handleRestart = () => {
     setGameState(initialGameState);
+    setGameStats({ food: 0, trash: 0, victoryPoints: 0 });
     initializeGame(allCards);
   };
 
   const handleEditCard = (card: Card) => {
-    // TODO: Implement card editing
-    console.log('Edit card:', card);
+    const updatedCards = [...allCards];
+    const cardIndex = updatedCards.findIndex(c => c.name === card.name);
+    
+    if (cardIndex === -1) {
+      // This is a new card
+      updatedCards.push(card);
+    } else {
+      // Update existing card
+      updatedCards[cardIndex] = card;
+    }
+    
+    // Update the cards.json file
+    fetch('/api/cards', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ cards: updatedCards }),
+    }).catch(error => {
+      console.error('Error saving cards:', error);
+    });
+
+    // Update the allCards state
+    setAllCards(updatedCards);
   };
 
   if (loading) {
@@ -217,33 +289,44 @@ const App: React.FC = () => {
 
   return (
     <Router>
-    <div className="App">
-      <header className="App-header">
-        <h1>Raccoon Trash Scheme</h1>
+      <div className="App">
+        <header className="App-header">
+          <h1>Raccoon Trash Scheme</h1>
           <nav className="main-nav">
             <Link to="/" className="nav-link">Game</Link>
             <Link to="/cards" className="nav-link">Cards</Link>
           </nav>
-      </header>
+        </header>
         <main className="game-container">
           <Routes>
             <Route path="/" element={
               <>
-                <GameBoard gameState={gameState} onCardClick={handleCardClick} />
-                <Market gameState={gameState} onCardClick={handleCardClick} />
-                <Hand 
-                  gameState={gameState} 
-                  onCardClick={handleCardClick} 
-                  onPlayCard={handleCardClick} 
+                <GameStats 
+                  food={gameStats.food}
+                  trash={gameStats.trash}
+                  victoryPoints={gameStats.victoryPoints}
                 />
+                <div className="game-controls">
+                  <button className="control-button" onClick={handleShuffle}>Shuffle</button>
+                  <button className="control-button" onClick={handleRestart}>Restart</button>
+                </div>
+                <div className="game-layout">
+                  <GameBoard gameState={gameState} onCardClick={handleCardClick} />
+                  <Market gameState={gameState} onCardClick={handleCardClick} />
+                  <Hand 
+                    gameState={gameState} 
+                    onCardClick={handleCardClick} 
+                    onPlayCard={handleCardClick} 
+                  />
+                </div>
               </>
             } />
             <Route path="/cards" element={
               <Cards cards={allCards} onEditCard={handleEditCard} />
             } />
           </Routes>
-      </main>
-    </div>
+        </main>
+      </div>
     </Router>
   );
 };

@@ -11,6 +11,27 @@ interface CardProps {
 const Card: React.FC<CardProps> = ({ card, onClick, count = 1 }) => {
   const isStackable = card.keywords.includes("Stackable");
   
+  const renderCost = () => {
+    if (card.cost_values.food === 0 && card.cost_values.trash === 0) {
+      return null;
+    }
+    
+    const costs = [];
+    if (card.cost_values.food > 0) {
+      costs.push(`${card.cost_values.food} Food`);
+    }
+    if (card.cost_values.trash > 0) {
+      costs.push(`${card.cost_values.trash} Trash`);
+    }
+    
+    return (
+      <div className="card-cost">
+        Cost: {costs.join(' + ')}
+        {card.cost_text && <div className="cost-text">{card.cost_text}</div>}
+      </div>
+    );
+  };
+  
   return (
     <div className={`card ${card.tier.toLowerCase().replace(' ', '-')} ${isStackable ? 'stackable' : ''}`} onClick={onClick}>
       {isStackable && count > 1 && (
@@ -21,7 +42,7 @@ const Card: React.FC<CardProps> = ({ card, onClick, count = 1 }) => {
       </div>
       <div className="card-body">
         <div className="card-type-badge">{card.cardType}</div>
-        {card.cost && <div className="card-cost">Cost: {card.cost}</div>}
+        {renderCost()}
         {card.effect && <div className="card-effect">{card.effect}</div>}
         {card.keywords && card.keywords.length > 0 && (
           <div className="card-keywords">

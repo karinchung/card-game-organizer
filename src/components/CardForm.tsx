@@ -13,6 +13,11 @@ const CardForm: React.FC<CardFormProps> = ({ card, onSubmit, onCancel }) => {
     name: card?.name || '',
     tier: card?.tier || 'Basic',
     cost: card?.cost || '0',
+    cost_values: card?.cost_values || {
+      food: 0,
+      trash: 0
+    },
+    cost_text: card?.cost_text || '',
     effect: card?.effect || '',
     effect_values: card?.effect_values || {
       food: 0,
@@ -23,7 +28,8 @@ const CardForm: React.FC<CardFormProps> = ({ card, onSubmit, onCancel }) => {
     resourceType: card?.resourceType || [],
     cardType: card?.cardType || 'Resource',
     flavor: card?.flavor || '',
-    quantity: card?.quantity || 1
+    quantity: card?.quantity || 1,
+    victoryPointsText: card?.victoryPointsText || ''
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
@@ -44,6 +50,22 @@ const CardForm: React.FC<CardFormProps> = ({ card, onSubmit, onCancel }) => {
         effect_values: {
           ...prev.effect_values,
           vp: Number(value)
+        }
+      }));
+    } else if (name === 'cost_food') {
+      setFormData(prev => ({
+        ...prev,
+        cost_values: {
+          ...prev.cost_values,
+          food: Number(value)
+        }
+      }));
+    } else if (name === 'cost_trash') {
+      setFormData(prev => ({
+        ...prev,
+        cost_values: {
+          ...prev.cost_values,
+          trash: Number(value)
         }
       }));
     } else {
@@ -97,6 +119,44 @@ const CardForm: React.FC<CardFormProps> = ({ card, onSubmit, onCancel }) => {
             id="cost"
             name="cost"
             value={formData.cost}
+            onChange={handleChange}
+          />
+        </div>
+
+        <div className="form-group">
+          <label>Cost Values</label>
+          <div className="cost-values">
+            <div className="cost-value-input">
+              <label htmlFor="cost_food">Food:</label>
+              <input
+                type="number"
+                id="cost_food"
+                name="cost_food"
+                value={formData.cost_values.food}
+                onChange={handleChange}
+                min="0"
+              />
+            </div>
+            <div className="cost-value-input">
+              <label htmlFor="cost_trash">Trash:</label>
+              <input
+                type="number"
+                id="cost_trash"
+                name="cost_trash"
+                value={formData.cost_values.trash}
+                onChange={handleChange}
+                min="0"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="cost_text">Cost Text</label>
+          <textarea
+            id="cost_text"
+            name="cost_text"
+            value={formData.cost_text}
             onChange={handleChange}
           />
         </div>
