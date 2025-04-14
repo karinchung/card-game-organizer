@@ -6,12 +6,9 @@ import lockfile from 'proper-lockfile';
 
 // Get the path to the cards.json file in the functions directory
 const getCardsPath = () => {
-  const functionDir = path.dirname(new URL(import.meta.url).pathname);
-  
   // In Netlify, the function is deployed to /var/task/netlify/functions/
   // The data directory should be included in the deployment at /var/task/netlify/functions/data/
   const netlifyPath = '/var/task/netlify/functions/data/cards.json';
-  const localPath = path.join(functionDir, 'data', 'cards.json');
   
   // Try the Netlify path first
   try {
@@ -23,22 +20,12 @@ const getCardsPath = () => {
     console.error('Error checking Netlify path:', error);
   }
   
-  // Try the local path next
-  try {
-    if (fs.existsSync(localPath)) {
-      console.log('Found cards.json at local path:', localPath);
-      return localPath;
-    }
-  } catch (error) {
-    console.error('Error checking local path:', error);
-  }
-  
-  // If neither path works, try a few more possibilities
+  // Try other possible paths
   const possiblePaths = [
-    path.join(functionDir, 'data', 'cards.json'),
+    '/var/task/data/cards.json',
     path.join(process.cwd(), 'data', 'cards.json'),
     path.join(process.cwd(), 'netlify', 'functions', 'data', 'cards.json'),
-    '/var/task/data/cards.json'
+    path.join(process.cwd(), 'data', 'cards.json')
   ];
   
   for (const filePath of possiblePaths) {
@@ -53,8 +40,8 @@ const getCardsPath = () => {
   }
   
   // If no file is found, return the default path and log a warning
-  console.warn(`No cards.json found in any of the expected locations. Using default path: ${localPath}`);
-  return localPath;
+  console.warn(`No cards.json found in any of the expected locations. Using default path: ${netlifyPath}`);
+  return netlifyPath;
 };
 
 const CARDS_PATH = getCardsPath();
@@ -136,7 +123,7 @@ export const handler = async (event, context) => {
   const headers = {
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Headers': 'Content-Type',
-    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS'
   };
 
   // Handle OPTIONS request for CORS
@@ -144,20 +131,58 @@ export const handler = async (event, context) => {
     return {
       statusCode: 200,
       headers,
-      body: '',
+      body: ''
     };
   }
 
   try {
-    // Handle GET request to fetch cards
     if (event.httpMethod === 'GET') {
       console.log('Handling GET request for cards');
-      const cards = await getCards();
-      return {
-        statusCode: 200,
-        headers,
-        body: JSON.stringify(cards),
-      };
+      const cardsPath = getCardsPath();
+      
+      try {
+        const cardsData = fs.readFileSync(cardsPath, 'utf8');
+        return {
+          statusCode: 200,
+          headers: {
+            ...headers,
+            'Content-Type': 'application/json'
+          },
+          body: cardsData
+        };
+      } catch (error) {
+        console.error('Error reading cards.json:', error);
+        
+        // If the file doesn't exist, return a default empty cards array
+        if (error.code === 'ENOENT') {
+          console.log('Cards file not found, returning default empty cards array');
+          return {
+            statusCode: 200,
+            headers: {
+              ...headers,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ cards: [] })
+          };
+        }
+        
+        return {
+          statusCode: 500,
+          headers: {
+            ...headers,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            error: 'Failed to read cards data',
+            details: error.message,
+            path: cardsPath,
+            stack: error.stack,
+            code: error.code,
+            errno: error.errno,
+            syscall: error.syscall
+          })
+        };
+      }
     }
 
     // Handle POST request to update cards
