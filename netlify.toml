@@ -20,4 +20,4 @@
   directory = "netlify/functions"
   node_bundler = "esbuild"
   external_node_modules = ["proper-lockfile"]
-  included_files = ["data/cards.json"] 
+  included_files = ["../data/cards.json"] 

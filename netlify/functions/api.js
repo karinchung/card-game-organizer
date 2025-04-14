@@ -8,8 +8,8 @@ import lockfile from 'proper-lockfile';
 const getCardsPath = () => {
   try {
     // In Netlify, the function is deployed to /var/task/netlify/functions/
-    // The data directory should be included in the deployment
-    const netlifyPath = '/var/task/netlify/functions/data/cards.json';
+    // The data directory should be included in the deployment at /var/task/data/
+    const netlifyPath = '/var/task/data/cards.json';
     
     // Check if the file exists at the Netlify path
     try {
@@ -18,28 +18,11 @@ const getCardsPath = () => {
       return netlifyPath;
     } catch (err) {
       console.log('Cards.json not found at Netlify path:', netlifyPath);
+      throw new Error(`Cards.json file not found at ${netlifyPath}`);
     }
-    
-    // Try the relative path from the function directory
-    const functionDir = path.dirname(fileURLToPath(import.meta.url));
-    const relativePath = path.join(functionDir, 'data', 'cards.json');
-    
-    try {
-      fs.accessSync(relativePath);
-      console.log('Found cards.json at relative path:', relativePath);
-      return relativePath;
-    } catch (err) {
-      console.log('Cards.json not found at relative path:', relativePath);
-    }
-    
-    // If we get here, we couldn't find the file
-    console.error('Could not find cards.json in the expected location');
-    
-    // Return a default empty cards object
-    return null;
   } catch (error) {
     console.error('Error in getCardsPath:', error);
-    return null;
+    throw error;
   }
 };
 
@@ -56,15 +39,6 @@ async function getCards() {
     // Check cache first
     if (cardsCache && (Date.now() - lastCacheTime < CACHE_TTL)) {
       console.log('Returning cached cards data');
-      return cardsCache;
-    }
-
-    // If CARDS_PATH is null, return a default empty cards object
-    if (!CARDS_PATH) {
-      console.log('No cards.json file found, returning default empty cards object');
-      const defaultCards = { cards: [] };
-      cardsCache = defaultCards;
-      lastCacheTime = Date.now();
       return cardsCache;
     }
 
@@ -85,24 +59,11 @@ async function getCards() {
     return cardsCache;
   } catch (error) {
     console.error('Error in getCards:', error);
-    // Return a default empty cards object
-    const defaultCards = { cards: [] };
-    cardsCache = defaultCards;
-    lastCacheTime = Date.now();
-    return cardsCache;
+    throw error;
   }
 }
 
 async function updateCards(newCards) {
-  // If CARDS_PATH is null, we can't update the file
-  if (!CARDS_PATH) {
-    console.log('No cards.json file found, cannot update cards');
-    // Just update the cache
-    cardsCache = newCards;
-    lastCacheTime = Date.now();
-    return;
-  }
-
   let release = null;
   try {
     // Acquire a lock before writing
@@ -129,9 +90,7 @@ async function updateCards(newCards) {
     lastCacheTime = Date.now();
   } catch (error) {
     console.error('Error in updateCards:', error);
-    // Just update the cache
-    cardsCache = newCards;
-    lastCacheTime = Date.now();
+    throw error;
   } finally {
     if (release) {
       await release();
