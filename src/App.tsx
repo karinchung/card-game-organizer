@@ -200,7 +200,7 @@ const App: React.FC = () => {
           if (card.tier === 'Basic' && prevState.market.freeMarket.includes(card)) {
             // Create a new instance of the card to add to hand or board
             const newCardInstance = { ...card };
-            
+
             // If the card is stackable, set quantity to 2
             if (card.keywords.includes('Stackable')) {
               newCardInstance.quantity = 2;
