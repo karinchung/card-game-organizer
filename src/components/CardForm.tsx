@@ -13,13 +13,23 @@ const CardForm: React.FC<CardFormProps> = ({ card, onSubmit, onCancel }) => {
     name: card?.name || '',
     tier: card?.tier || 'Basic',
     cost: card?.cost || '0',
+    cost_values: card?.cost_values || {
+      food: 0,
+      trash: 0
+    },
+    cost_text: card?.cost_text || '',
     effect: card?.effect || '',
+    effect_values: card?.effect_values || {
+      food: 0,
+      trash: 0,
+      vp: 0
+    },
     keywords: card?.keywords || [],
     resourceType: card?.resourceType || [],
     cardType: card?.cardType || 'Resource',
-    victoryPoints: card?.victoryPoints || 0,
     flavor: card?.flavor || '',
-    quantity: card?.quantity || 1
+    quantity: card?.quantity || 1,
+    victoryPointsText: card?.victoryPointsText || ''
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
@@ -34,6 +44,30 @@ const CardForm: React.FC<CardFormProps> = ({ card, onSubmit, onCancel }) => {
           : currentValues.filter(v => v !== value);
         setFormData(prev => ({ ...prev, [name]: newValues }));
       }
+    } else if (name === 'vp') {
+      setFormData(prev => ({
+        ...prev,
+        effect_values: {
+          ...prev.effect_values,
+          vp: Number(value)
+        }
+      }));
+    } else if (name === 'cost_food') {
+      setFormData(prev => ({
+        ...prev,
+        cost_values: {
+          ...prev.cost_values,
+          food: Number(value)
+        }
+      }));
+    } else if (name === 'cost_trash') {
+      setFormData(prev => ({
+        ...prev,
+        cost_values: {
+          ...prev.cost_values,
+          trash: Number(value)
+        }
+      }));
     } else {
       setFormData(prev => ({
         ...prev,
@@ -85,6 +119,44 @@ const CardForm: React.FC<CardFormProps> = ({ card, onSubmit, onCancel }) => {
             id="cost"
             name="cost"
             value={formData.cost}
+            onChange={handleChange}
+          />
+        </div>
+
+        <div className="form-group">
+          <label>Cost Values</label>
+          <div className="cost-values">
+            <div className="cost-value-input">
+              <label htmlFor="cost_food">Food:</label>
+              <input
+                type="number"
+                id="cost_food"
+                name="cost_food"
+                value={formData.cost_values.food}
+                onChange={handleChange}
+                min="0"
+              />
+            </div>
+            <div className="cost-value-input">
+              <label htmlFor="cost_trash">Trash:</label>
+              <input
+                type="number"
+                id="cost_trash"
+                name="cost_trash"
+                value={formData.cost_values.trash}
+                onChange={handleChange}
+                min="0"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="cost_text">Cost Text</label>
+          <textarea
+            id="cost_text"
+            name="cost_text"
+            value={formData.cost_text}
             onChange={handleChange}
           />
         </div>
@@ -150,12 +222,12 @@ const CardForm: React.FC<CardFormProps> = ({ card, onSubmit, onCancel }) => {
         </div>
 
         <div className="form-group">
-          <label htmlFor="victoryPoints">Victory Points</label>
+          <label htmlFor="vp">Victory Points</label>
           <input
             type="number"
-            id="victoryPoints"
-            name="victoryPoints"
-            value={formData.victoryPoints}
+            id="vp"
+            name="vp"
+            value={formData.effect_values.vp}
             onChange={handleChange}
             min="0"
           />
@@ -184,11 +256,11 @@ const CardForm: React.FC<CardFormProps> = ({ card, onSubmit, onCancel }) => {
         </div>
 
         <div className="form-actions">
+          <button type="submit" className="submit-button">
+            {card ? 'Save Changes' : 'Add Card'}
+          </button>
           <button type="button" className="cancel-button" onClick={onCancel}>
             Cancel
-          </button>
-          <button type="submit" className="save-button">
-            {card ? 'Save Changes' : 'Add Card'}
           </button>
         </div>
       </form>

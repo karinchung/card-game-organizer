@@ -52,7 +52,7 @@ const CardTable: React.FC<CardTableProps> = ({ cards, onCardClick, onEditCard })
                   <td onClick={() => onCardClick?.(card)} className={onCardClick ? "clickable" : ""}>{card.cardType} {card.resourceType.join(', ')}</td>
                   <td onClick={() => onCardClick?.(card)} className={onCardClick ? "clickable" : ""}>{card.effect}</td>
                   <td onClick={() => onCardClick?.(card)} className={onCardClick ? "clickable" : ""}>{card.keywords.join(', ') || '-'}</td>
-                  <td onClick={() => onCardClick?.(card)} className={onCardClick ? "clickable" : ""}>{card.victoryPoints}</td>
+                  <td onClick={() => onCardClick?.(card)} className={onCardClick ? "clickable" : ""}>{card.effect_values?.vp || 0}</td>
                   <td>
                     <button 
                       className="edit-button"
