@@ -7,55 +7,39 @@ import lockfile from 'proper-lockfile';
 // Get the path to the cards.json file in the functions directory
 const getCardsPath = () => {
   try {
-    // Try multiple possible locations for the cards.json file
-    const possiblePaths = [
-      // Try the data directory in the functions folder
-      path.join(process.cwd(), 'netlify', 'functions', 'data', 'cards.json'),
-      // Try the data directory in the root
-      path.join(process.cwd(), 'data', 'cards.json'),
-      // Try the functions directory
-      path.join(process.cwd(), 'netlify', 'functions', 'cards.json'),
-      // Fallback to a hardcoded path
-      '/var/task/netlify/functions/data/cards.json'
-    ];
-
-    // Try each path and return the first one that exists
-    for (const p of possiblePaths) {
-      try {
-        // Check if the file exists
-        fs.accessSync(p);
-        console.log('Found cards.json at:', p);
-        return p;
-      } catch (err) {
-        console.log('Path not found:', p);
-        // Continue to the next path
-      }
-    }
-
-    // If we get here, we couldn't find the file
-    console.error('Could not find cards.json in any of the expected locations');
+    // In Netlify, the function is deployed to /var/task/netlify/functions/
+    // The data directory should be included in the deployment
+    const netlifyPath = '/var/task/netlify/functions/data/cards.json';
     
-    // Create a default cards.json file if it doesn't exist
-    const defaultPath = path.join(process.cwd(), 'netlify', 'functions', 'data', 'cards.json');
-    console.log('Creating default cards.json at:', defaultPath);
-    
-    // Ensure the directory exists
-    const dir = path.dirname(defaultPath);
+    // Check if the file exists at the Netlify path
     try {
-      fs.mkdirSync(dir, { recursive: true });
+      fs.accessSync(netlifyPath);
+      console.log('Found cards.json at Netlify path:', netlifyPath);
+      return netlifyPath;
     } catch (err) {
-      console.error('Error creating directory:', err);
+      console.log('Cards.json not found at Netlify path:', netlifyPath);
     }
     
-    // Create a default cards.json file
-    const defaultCards = { cards: [] };
-    fs.writeFileSync(defaultPath, JSON.stringify(defaultCards, null, 2));
+    // Try the relative path from the function directory
+    const functionDir = path.dirname(fileURLToPath(import.meta.url));
+    const relativePath = path.join(functionDir, 'data', 'cards.json');
     
-    return defaultPath;
+    try {
+      fs.accessSync(relativePath);
+      console.log('Found cards.json at relative path:', relativePath);
+      return relativePath;
+    } catch (err) {
+      console.log('Cards.json not found at relative path:', relativePath);
+    }
+    
+    // If we get here, we couldn't find the file
+    console.error('Could not find cards.json in the expected location');
+    
+    // Return a default empty cards object
+    return null;
   } catch (error) {
     console.error('Error in getCardsPath:', error);
-    // Return a fallback path
-    return '/tmp/cards.json';
+    return null;
   }
 };
 
@@ -72,6 +56,15 @@ async function getCards() {
     // Check cache first
     if (cardsCache && (Date.now() - lastCacheTime < CACHE_TTL)) {
       console.log('Returning cached cards data');
+      return cardsCache;
+    }
+
+    // If CARDS_PATH is null, return a default empty cards object
+    if (!CARDS_PATH) {
+      console.log('No cards.json file found, returning default empty cards object');
+      const defaultCards = { cards: [] };
+      cardsCache = defaultCards;
+      lastCacheTime = Date.now();
       return cardsCache;
     }
 
@@ -92,11 +85,24 @@ async function getCards() {
     return cardsCache;
   } catch (error) {
     console.error('Error in getCards:', error);
-    throw error;
+    // Return a default empty cards object
+    const defaultCards = { cards: [] };
+    cardsCache = defaultCards;
+    lastCacheTime = Date.now();
+    return cardsCache;
   }
 }
 
 async function updateCards(newCards) {
+  // If CARDS_PATH is null, we can't update the file
+  if (!CARDS_PATH) {
+    console.log('No cards.json file found, cannot update cards');
+    // Just update the cache
+    cardsCache = newCards;
+    lastCacheTime = Date.now();
+    return;
+  }
+
   let release = null;
   try {
     // Acquire a lock before writing
@@ -122,7 +128,10 @@ async function updateCards(newCards) {
     cardsCache = newCards;
     lastCacheTime = Date.now();
   } catch (error) {
-    throw new Error('Failed to update cards');
+    console.error('Error in updateCards:', error);
+    // Just update the cache
+    cardsCache = newCards;
+    lastCacheTime = Date.now();
   } finally {
     if (release) {
       await release();
