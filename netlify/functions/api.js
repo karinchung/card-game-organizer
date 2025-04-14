@@ -6,24 +6,55 @@ import lockfile from 'proper-lockfile';
 
 // Get the path to the cards.json file in the functions directory
 const getCardsPath = () => {
+  const functionDir = path.dirname(new URL(import.meta.url).pathname);
+  
+  // In Netlify, the function is deployed to /var/task/netlify/functions/
+  // The data directory should be included in the deployment at /var/task/netlify/functions/data/
+  const netlifyPath = '/var/task/netlify/functions/data/cards.json';
+  const localPath = path.join(functionDir, 'data', 'cards.json');
+  
+  // Try the Netlify path first
   try {
-    // In Netlify, the function is deployed to /var/task/netlify/functions/
-    // The data directory should be included in the deployment at /var/task/data/
-    const netlifyPath = '/var/task/data/cards.json';
-    
-    // Check if the file exists at the Netlify path
-    try {
-      fs.accessSync(netlifyPath);
+    if (fs.existsSync(netlifyPath)) {
       console.log('Found cards.json at Netlify path:', netlifyPath);
       return netlifyPath;
-    } catch (err) {
-      console.log('Cards.json not found at Netlify path:', netlifyPath);
-      throw new Error(`Cards.json file not found at ${netlifyPath}`);
     }
   } catch (error) {
-    console.error('Error in getCardsPath:', error);
-    throw error;
+    console.error('Error checking Netlify path:', error);
   }
+  
+  // Try the local path next
+  try {
+    if (fs.existsSync(localPath)) {
+      console.log('Found cards.json at local path:', localPath);
+      return localPath;
+    }
+  } catch (error) {
+    console.error('Error checking local path:', error);
+  }
+  
+  // If neither path works, try a few more possibilities
+  const possiblePaths = [
+    path.join(functionDir, 'data', 'cards.json'),
+    path.join(process.cwd(), 'data', 'cards.json'),
+    path.join(process.cwd(), 'netlify', 'functions', 'data', 'cards.json'),
+    '/var/task/data/cards.json'
+  ];
+  
+  for (const filePath of possiblePaths) {
+    try {
+      if (fs.existsSync(filePath)) {
+        console.log(`Found cards.json at: ${filePath}`);
+        return filePath;
+      }
+    } catch (error) {
+      console.error(`Error checking path ${filePath}:`, error);
+    }
+  }
+  
+  // If no file is found, return the default path and log a warning
+  console.warn(`No cards.json found in any of the expected locations. Using default path: ${localPath}`);
+  return localPath;
 };
 
 const CARDS_PATH = getCardsPath();
