@@ -11,7 +11,8 @@ import { convertToCards } from './utils/cardUtils';
 import useSWR from 'swr';
 import './App.css';
 
-const API_URL = 'http://localhost:3001/api';
+// Use environment variable for API URL, fallback to localhost for development
+const API_URL = process.env.API_URL || 'http://localhost:3001/api';
 
 // Fetcher function for SWR
 const fetcher = async (url: string) => {
