@@ -3,7 +3,8 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background-color: #f5f5f5;
+  background-color: #282c34;
+  color: white;
 }
 
 .App-header {
@@ -54,7 +55,7 @@
 .game-board,
 .market,
 .hand {
-  background-color: white;
+  background-color: #1a1c20;
   border-radius: 8px;
   padding: 15px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -70,7 +71,7 @@
 }
 
 .card {
-  background-color: white;
+  background-color: #1a1c20;
   border: 1px solid #e1e4e8;
   border-radius: 4px;
   padding: 6px;
@@ -84,6 +85,7 @@
   font-size: 0.75em;
   position: relative;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  color: white;
 }
 
 .card.stackable {
@@ -127,30 +129,30 @@
   font-size: 0.9em;
   font-weight: bold;
   word-break: break-word;
-  color: #24292e;
+  color: #61dafb;
 }
 
 .card-tier {
   font-size: 0.7em;
-  color: #586069;
+  color: #61dafb;
 }
 
 .card-type {
   font-size: 0.8em;
-  color: #444d56;
+  color: #61dafb;
   margin-bottom: 2px;
 }
 
 .card-cost {
   font-size: 0.8em;
-  color: #444d56;
+  color: #61dafb;
   margin-bottom: 2px;
   word-break: break-word;
 }
 
 .card-effect {
   font-size: 0.7em;
-  color: #24292e;
+  color: white;
   margin-bottom: 2px;
   line-height: 1.1;
   word-break: break-word;
@@ -290,64 +292,106 @@ h2 {
 @media (prefers-color-scheme: light) {
   body {
     background-color: #f5f5f5;
-    color: #333333;
-  }
-
-  /* Card styles */
-  .card {
-    background-color: #ffffff;
-    border-color: #e0e0e0;
-  }
-
-  .card h3 {
-    color: #0066cc;
-  }
-
-  .card p {
-    color: #333333;
-  }
-
-  /* Resource counters */
-  .resource-counter {
-    background-color: #e6f2ff;
-    color: #0066cc;
-    border-color: #cce5ff;
-  }
-
-  /* Buttons */
-  button {
-    background-color: #0066cc;
-    color: white;
-    border-color: #0052a3;
-  }
-
-  button:hover {
-    background-color: #0052a3;
-  }
-
-  /* Links */
-  a {
-    color: #0066cc;
-  }
-
-  a:hover {
-    color: #0052a3;
-  }
-
-  /* Headers */
-  h1, h2, h3, h4, h5, h6 {
     color: #1a1a1a;
   }
 
-  /* Game board sections */
-  .game-board, .market, .hand {
-    background-color: rgba(0, 0, 0, 0.05);
+  .App {
+    background-color: #f5f5f5;
+    color: #1a1a1a;
   }
 
-  /* Card count badges */
-  .card-count {
-    background-color: #0066cc;
-    color: white;
-    border-color: white;
+  .game-board,
+  .market,
+  .hand {
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+  }
+
+  .card {
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+  }
+
+  .card-name,
+  .card-type,
+  .card-effect,
+  .card-flavor {
+    color: #1a1a1a;
+  }
+
+  .card-tier,
+  .card-cost,
+  .card-vp {
+    color: #61dafb;
+  }
+
+  .keyword,
+  .resource {
+    background-color: #e0e0e0;
+    color: #1a1a1a;
+  }
+
+  .stack-indicator {
+    background-color: #61dafb;
+    color: #1a1a1a;
+  }
+
+  .card.stackable {
+    background-color: #f0f8ff;
+    border-color: #61dafb;
+  }
+
+  .card.stackable .card-name,
+  .card.stackable .card-type,
+  .card.stackable .card-effect,
+  .card.stackable .card-flavor {
+    color: #1a1a1a;
+  }
+
+  .card.stackable .card-tier,
+  .card.stackable .card-cost,
+  .card.stackable .card-vp {
+    color: #61dafb;
+  }
+
+  .card.stackable .keyword,
+  .card.stackable .resource {
+    background-color: #e0e0e0;
+    color: #1a1a1a;
+  }
+
+  .card.stackable .stack-indicator {
+    background-color: #61dafb;
+    color: #1a1a1a;
+  }
+
+  .resource-counter {
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+  }
+
+  .resource-counter span {
+    color: #1a1a1a;
+  }
+
+  button {
+    background-color: #61dafb;
+    color: #1a1a1a;
+  }
+
+  button:hover {
+    background-color: #4fa8d1;
+  }
+
+  a {
+    color: #61dafb;
+  }
+
+  a:hover {
+    color: #4fa8d1;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    color: #1a1a1a;
   }
 }
