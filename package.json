@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "concurrently \"npm run server\" \"vite\"",
-    "build": "vite build",
+    "build": "node scripts/copy-data.js && vite build",
     "preview": "vite preview",
     "server": "node server.js",
     "start": "concurrently \"npm run server\" \"vite preview\"",

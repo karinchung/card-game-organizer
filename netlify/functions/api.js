@@ -1,17 +1,51 @@
 // netlify/functions/api.js
-import { promises as fs } from 'fs';
+import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import lockfile from 'proper-lockfile';
 
 // Get the path to the cards.json file in the functions directory
 const getCardsPath = () => {
-  const __filename = fileURLToPath(import.meta.url);
-  const functionDir = path.dirname(__filename);
-  return path.join(functionDir, 'data', 'cards.json');
+  // In Netlify, the function is deployed to /var/task/netlify/functions/
+  // The data directory should be included in the deployment at /var/task/netlify/functions/data/
+  const netlifyPath = '/var/task/netlify/functions/data/cards.json';
+  
+  // Try the Netlify path first
+  try {
+    if (fs.existsSync(netlifyPath)) {
+      console.log('Found cards.json at Netlify path:', netlifyPath);
+      return netlifyPath;
+    }
+  } catch (error) {
+    console.error('Error checking Netlify path:', error);
+  }
+  
+  // Try other possible paths
+  const possiblePaths = [
+    '/var/task/data/cards.json',
+    path.join(process.cwd(), 'data', 'cards.json'),
+    path.join(process.cwd(), 'netlify', 'functions', 'data', 'cards.json'),
+    path.join(process.cwd(), 'data', 'cards.json')
+  ];
+  
+  for (const filePath of possiblePaths) {
+    try {
+      if (fs.existsSync(filePath)) {
+        console.log(`Found cards.json at: ${filePath}`);
+        return filePath;
+      }
+    } catch (error) {
+      console.error(`Error checking path ${filePath}:`, error);
+    }
+  }
+  
+  // If no file is found, return the default path and log a warning
+  console.warn(`No cards.json found in any of the expected locations. Using default path: ${netlifyPath}`);
+  return netlifyPath;
 };
 
 const CARDS_PATH = getCardsPath();
+console.log('Cards path:', CARDS_PATH);
 
 // In-memory cache
 let cardsCache = null;
@@ -22,24 +56,28 @@ async function getCards() {
   try {
     // Check cache first
     if (cardsCache && (Date.now() - lastCacheTime < CACHE_TTL)) {
+      console.log('Returning cached cards data');
       return cardsCache;
     }
 
-    const data = await fs.readFile(CARDS_PATH, 'utf8');
+    console.log('Reading cards from file:', CARDS_PATH);
+    const data = fs.readFileSync(CARDS_PATH, 'utf8');
+    console.log('Successfully read cards file');
+    
     const parsedData = JSON.parse(data);
+    console.log('Successfully parsed cards data');
     
     // Ensure we have a valid cards array
     if (!parsedData || !parsedData.cards || !Array.isArray(parsedData.cards)) {
-      // Return a default structure if the data is invalid
-      return { cards: [] };
+      throw new Error('Invalid cards data structure');
     }
     
     cardsCache = parsedData;
     lastCacheTime = Date.now();
     return cardsCache;
   } catch (error) {
-    // Return a default structure if there's an error
-    return { cards: [] };
+    console.error('Error in getCards:', error);
+    throw error;
   }
 }
 
@@ -60,16 +98,17 @@ async function updateCards(newCards) {
 
     // Write to temporary file first
     const tempPath = CARDS_PATH + '.tmp';
-    await fs.writeFile(tempPath, JSON.stringify(newCards, null, 2));
+    fs.writeFileSync(tempPath, JSON.stringify(newCards, null, 2));
     
     // Atomic rename
-    await fs.rename(tempPath, CARDS_PATH);
+    fs.renameSync(tempPath, CARDS_PATH);
     
     // Update cache
     cardsCache = newCards;
     lastCacheTime = Date.now();
   } catch (error) {
-    throw new Error('Failed to update cards');
+    console.error('Error in updateCards:', error);
+    throw error;
   } finally {
     if (release) {
       await release();
@@ -78,11 +117,13 @@ async function updateCards(newCards) {
 }
 
 export const handler = async (event, context) => {
+  console.log('API function called with method:', event.httpMethod);
+  
   // Set CORS headers
   const headers = {
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Headers': 'Content-Type',
-    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS'
   };
 
   // Handle OPTIONS request for CORS
@@ -90,37 +131,91 @@ export const handler = async (event, context) => {
     return {
       statusCode: 200,
       headers,
-      body: '',
+      body: ''
     };
   }
 
   try {
-    // Handle GET request to fetch cards
     if (event.httpMethod === 'GET') {
-      const cardsData = await getCards();
-      
-      return {
-        statusCode: 200,
-        headers: {
-          ...headers,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(cardsData),
-      };
+      console.log('Handling GET request for cards');
+      try {
+        const cards = await getCards();
+        return {
+          statusCode: 200,
+          headers: {
+            ...headers,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(cards)
+        };
+      } catch (error) {
+        console.error('Error reading cards.json:', error);
+        
+        // If the file doesn't exist, return a default empty cards array
+        if (error.code === 'ENOENT') {
+          console.log('Cards file not found, returning default empty cards array');
+          return {
+            statusCode: 200,
+            headers: {
+              ...headers,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ cards: [] })
+          };
+        }
+        
+        return {
+          statusCode: 500,
+          headers: {
+            ...headers,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            error: 'Failed to read cards data',
+            details: error.message,
+            path: CARDS_PATH,
+            stack: error.stack,
+            code: error.code,
+            errno: error.errno,
+            syscall: error.syscall
+          })
+        };
+      }
     }
 
     // Handle POST request to update cards
     if (event.httpMethod === 'POST') {
-      const updatedCards = JSON.parse(event.body);
-      await updateCards(updatedCards);
-      return {
-        statusCode: 200,
-        headers: {
-          ...headers,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ message: 'Cards saved successfully' }),
-      };
+      console.log('Handling POST request to update cards');
+      try {
+        const body = JSON.parse(event.body || '{}');
+        await updateCards(body);
+        return {
+          statusCode: 200,
+          headers: {
+            ...headers,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ success: true })
+        };
+      } catch (error) {
+        console.error('Error updating cards.json:', error);
+        return {
+          statusCode: 500,
+          headers: {
+            ...headers,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            error: 'Failed to update cards data',
+            details: error.message,
+            path: CARDS_PATH,
+            stack: error.stack,
+            code: error.code,
+            errno: error.errno,
+            syscall: error.syscall
+          })
+        };
+      }
     }
 
     // Handle unsupported methods
@@ -128,18 +223,28 @@ export const handler = async (event, context) => {
       statusCode: 405,
       headers: {
         ...headers,
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ error: 'Method not allowed' }),
+      body: JSON.stringify({ error: 'Method not allowed' })
     };
   } catch (error) {
+    console.error('Error in handler:', error);
+    
+    // Return a more detailed error response
     return {
       statusCode: 500,
       headers: {
         ...headers,
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ error: 'Internal server error' }),
+      body: JSON.stringify({
+        error: 'Internal server error',
+        details: error.message,
+        stack: error.stack,
+        code: error.code,
+        errno: error.errno,
+        syscall: error.syscall
+      })
     };
   }
 }; 

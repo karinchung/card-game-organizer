@@ -42,15 +42,17 @@ const groupStackableCards = (cards: CardType[]) => {
   const processedCards = new Set<string>();
 
   cards.forEach((card) => {
-    if (processedCards.has(card.name)) return;
-
-    if (card.keywords.includes('Stackable')) {
-      const count = cards.filter((c) => c.name === card.name).length;
-      cardGroups.push({ card, count });
-    } else {
+    // For non-stackable cards, add each instance separately
+    if (!card.keywords.includes('Stackable')) {
       cardGroups.push({ card, count: 1 });
+      return;
     }
 
+    // For stackable cards, group them
+    if (processedCards.has(card.name)) return;
+
+    const count = cards.filter((c) => c.name === card.name).length;
+    cardGroups.push({ card, count });
     processedCards.add(card.name);
   });
 

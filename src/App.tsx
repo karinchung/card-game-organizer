@@ -12,29 +12,37 @@ import useSWR from 'swr';
 import './App.css';
 
 // Use environment variable for API URL, fallback to localhost for development
-const API_URL = process.env.NODE_ENV === 'production' 
-  ? '/.netlify/functions/api'
-  : 'http://localhost:3001/api';
+const API_URL =
+  process.env.NODE_ENV === 'production' ? '/.netlify/functions/api' : 'http://localhost:3001/api';
 
 // Fetcher function for SWR
 const fetcher = async (url: string) => {
   try {
+    console.log('Fetching from URL:', url);
     const response = await fetch(url);
+    console.log('Response status:', response.status);
+
     if (!response.ok) {
       console.error(`API error: ${response.status}`);
+      const errorText = await response.text();
+      console.error('Error response:', errorText);
       // Return an empty array instead of throwing an error
       return [];
     }
+
     const data = await response.json();
-    
+    console.log('API response data:', data);
+
     // Check if data has the expected structure
     if (!data || !data.cards || !Array.isArray(data.cards)) {
       console.error('Invalid API response structure:', data);
       // Return an empty array instead of throwing an error
       return [];
     }
-    
-    return convertToCards(data.cards);
+
+    const convertedCards = convertToCards(data.cards);
+    console.log('Converted cards:', convertedCards.length);
+    return convertedCards;
   } catch (error) {
     console.error('Error fetching cards:', error);
     // Return an empty array on any error
@@ -146,6 +154,7 @@ const App: React.FC = () => {
       gameState.board.denCards.includes(card) ||
       gameState.board.friendCards.includes(card)
     ) {
+      // Activate the card regardless of whether it's stackable or not
       handleCardActivation(card);
 
       // Move the card to trash after activation
@@ -189,8 +198,13 @@ const App: React.FC = () => {
 
           // Special handling for basic cards in free market
           if (card.tier === 'Basic' && prevState.market.freeMarket.includes(card)) {
-            // Create a duplicate of the card to add to hand or board
-            const cardDuplicate = { ...card };
+            // Create a new instance of the card to add to hand or board
+            const newCardInstance = { ...card };
+
+            // If the card is stackable, set quantity to 2
+            if (card.keywords.includes('Stackable')) {
+              newCardInstance.quantity = 2;
+            }
 
             // Check if we can add the card based on its type and current state
             if (card.cardType === 'Den') {
@@ -199,7 +213,7 @@ const App: React.FC = () => {
                   ...prevState,
                   board: {
                     ...prevState.board,
-                    denCards: [...prevState.board.denCards, cardDuplicate],
+                    denCards: [...prevState.board.denCards, newCardInstance],
                   },
                 };
               }
@@ -208,13 +222,14 @@ const App: React.FC = () => {
                 ...prevState,
                 board: {
                   ...prevState.board,
-                  friendCards: [...prevState.board.friendCards, cardDuplicate],
+                  friendCards: [...prevState.board.friendCards, newCardInstance],
                 },
               };
             } else if (prevState.hand.length < 10) {
+              // For basic cards, always add a new instance to hand
               return {
                 ...prevState,
-                hand: [...prevState.hand, cardDuplicate],
+                hand: [...prevState.hand, newCardInstance],
               };
             }
           } else {
@@ -329,7 +344,7 @@ const App: React.FC = () => {
         if (!response.ok) {
           throw new Error(`Failed to save card: ${response.status}`);
         }
-        
+
         // Update the SWR cache with the new data
         // This will trigger a re-render of all components that use the allCards data
         mutateCards(updatedCards, false);
