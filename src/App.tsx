@@ -19,7 +19,17 @@ const API_URL = process.env.NODE_ENV === 'production'
 // Fetcher function for SWR
 const fetcher = async (url: string) => {
   const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error(`API error: ${response.status}`);
+  }
   const data = await response.json();
+  
+  // Check if data has the expected structure
+  if (!data || !data.cards || !Array.isArray(data.cards)) {
+    console.error('Invalid API response structure:', data);
+    throw new Error('Invalid API response structure');
+  }
+  
   return convertToCards(data.cards);
 };
 

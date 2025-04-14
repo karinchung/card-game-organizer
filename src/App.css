@@ -285,3 +285,69 @@ h2 {
 .nav-link.active {
   background-color: rgba(97, 218, 251, 0.2);
 }
+
+/* Light mode overrides */
+@media (prefers-color-scheme: light) {
+  body {
+    background-color: #f5f5f5;
+    color: #333333;
+  }
+
+  /* Card styles */
+  .card {
+    background-color: #ffffff;
+    border-color: #e0e0e0;
+  }
+
+  .card h3 {
+    color: #0066cc;
+  }
+
+  .card p {
+    color: #333333;
+  }
+
+  /* Resource counters */
+  .resource-counter {
+    background-color: #e6f2ff;
+    color: #0066cc;
+    border-color: #cce5ff;
+  }
+
+  /* Buttons */
+  button {
+    background-color: #0066cc;
+    color: white;
+    border-color: #0052a3;
+  }
+
+  button:hover {
+    background-color: #0052a3;
+  }
+
+  /* Links */
+  a {
+    color: #0066cc;
+  }
+
+  a:hover {
+    color: #0052a3;
+  }
+
+  /* Headers */
+  h1, h2, h3, h4, h5, h6 {
+    color: #1a1a1a;
+  }
+
+  /* Game board sections */
+  .game-board, .market, .hand {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+
+  /* Card count badges */
+  .card-count {
+    background-color: #0066cc;
+    color: white;
+    border-color: white;
+  }
+}

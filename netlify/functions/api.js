@@ -1,12 +1,14 @@
 // netlify/functions/api.js
-const fs = require('fs').promises;
-const path = require('path');
-const lockfile = require('proper-lockfile');
+import { promises as fs } from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import lockfile from 'proper-lockfile';
 
 // Get the correct path for both local and Netlify environments
 const getCardsPath = () => {
   try {
     // Try to get the path relative to the function
+    const __filename = fileURLToPath(import.meta.url);
     const functionDir = path.dirname(__filename);
     const projectRoot = path.join(functionDir, '../..');
     return path.join(projectRoot, 'data', 'cards.json');
@@ -32,7 +34,15 @@ async function getCards() {
     }
 
     const data = await fs.readFile(CARDS_PATH, 'utf8');
-    cardsCache = JSON.parse(data);
+    const parsedData = JSON.parse(data);
+    
+    // Ensure we have a valid cards array
+    if (!parsedData || !parsedData.cards || !Array.isArray(parsedData.cards)) {
+      console.error('Invalid cards data structure:', parsedData);
+      throw new Error('Invalid cards data structure');
+    }
+    
+    cardsCache = parsedData;
     lastCacheTime = Date.now();
     return cardsCache;
   } catch (error) {
@@ -76,7 +86,7 @@ async function updateCards(newCards) {
   }
 }
 
-exports.handler = async (event, context) => {
+export const handler = async (event, context) => {
   // Set CORS headers
   const headers = {
     'Access-Control-Allow-Origin': '*',
@@ -96,14 +106,16 @@ exports.handler = async (event, context) => {
   try {
     // Handle GET request to fetch cards
     if (event.httpMethod === 'GET') {
-      const cards = await getCards();
+      const cardsData = await getCards();
+      
+      // Ensure we're returning the correct structure
       return {
         statusCode: 200,
         headers: {
           ...headers,
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(cards),
+        body: JSON.stringify(cardsData),
       };
     }
 
@@ -138,7 +150,7 @@ exports.handler = async (event, context) => {
         ...headers,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ error: 'Internal server error' }),
+      body: JSON.stringify({ error: 'Internal server error', details: error.message }),
     };
   }
 }; 

@@ -98,7 +98,7 @@
   color: #61dafb;
   padding: 2px 5px;
   border-radius: 4px;
-  font-size: 0.75em;
+  font-size: 0.8em;
 }
 
 .card-resources {
@@ -186,4 +186,54 @@
   color: #888;
   font-size: 0.9em;
   margin-top: 5px;
+}
+
+/* Light mode overrides */
+@media (prefers-color-scheme: light) {
+  .card {
+    background-color: #ffffff;
+    border-color: #0066cc;
+  }
+  
+  .card-header {
+    border-bottom-color: rgba(0, 102, 204, 0.3);
+  }
+  
+  .card-name {
+    color: #0066cc;
+  }
+  
+  .card-type-badge {
+    background-color: #0066cc;
+    color: white;
+  }
+  
+  .card-cost {
+    color: #555;
+  }
+  
+  .cost-text {
+    color: #777;
+  }
+  
+  .card-effect {
+    color: #333;
+  }
+  
+  .keyword {
+    background-color: rgba(0, 102, 204, 0.1);
+    color: #0066cc;
+  }
+  
+  .card-flavor {
+    color: #555;
+  }
+  
+  .flavor-text {
+    color: #555;
+  }
+  
+  .victory-points {
+    color: #0066cc;
+  }
 }
