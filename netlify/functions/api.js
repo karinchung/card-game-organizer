@@ -1,5 +1,5 @@
 // netlify/functions/api.js
-import { promises as fs } from 'fs';
+import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import lockfile from 'proper-lockfile';
@@ -61,7 +61,7 @@ async function getCards() {
     }
 
     console.log('Reading cards from file:', CARDS_PATH);
-    const data = await fs.readFile(CARDS_PATH, 'utf8');
+    const data = fs.readFileSync(CARDS_PATH, 'utf8');
     console.log('Successfully read cards file');
     
     const parsedData = JSON.parse(data);
@@ -98,10 +98,10 @@ async function updateCards(newCards) {
 
     // Write to temporary file first
     const tempPath = CARDS_PATH + '.tmp';
-    await fs.writeFile(tempPath, JSON.stringify(newCards, null, 2));
+    fs.writeFileSync(tempPath, JSON.stringify(newCards, null, 2));
     
     // Atomic rename
-    await fs.rename(tempPath, CARDS_PATH);
+    fs.renameSync(tempPath, CARDS_PATH);
     
     // Update cache
     cardsCache = newCards;
@@ -138,17 +138,15 @@ export const handler = async (event, context) => {
   try {
     if (event.httpMethod === 'GET') {
       console.log('Handling GET request for cards');
-      const cardsPath = getCardsPath();
-      
       try {
-        const cardsData = fs.readFileSync(cardsPath, 'utf8');
+        const cards = await getCards();
         return {
           statusCode: 200,
           headers: {
             ...headers,
             'Content-Type': 'application/json'
           },
-          body: cardsData
+          body: JSON.stringify(cards)
         };
       } catch (error) {
         console.error('Error reading cards.json:', error);
@@ -175,7 +173,7 @@ export const handler = async (event, context) => {
           body: JSON.stringify({
             error: 'Failed to read cards data',
             details: error.message,
-            path: cardsPath,
+            path: CARDS_PATH,
             stack: error.stack,
             code: error.code,
             errno: error.errno,
@@ -188,20 +186,46 @@ export const handler = async (event, context) => {
     // Handle POST request to update cards
     if (event.httpMethod === 'POST') {
       console.log('Handling POST request to update cards');
-      const body = JSON.parse(event.body || '{}');
-      await updateCards(body);
-      return {
-        statusCode: 200,
-        headers,
-        body: JSON.stringify({ success: true }),
-      };
+      try {
+        const body = JSON.parse(event.body || '{}');
+        await updateCards(body);
+        return {
+          statusCode: 200,
+          headers: {
+            ...headers,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ success: true })
+        };
+      } catch (error) {
+        console.error('Error updating cards.json:', error);
+        return {
+          statusCode: 500,
+          headers: {
+            ...headers,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            error: 'Failed to update cards data',
+            details: error.message,
+            path: CARDS_PATH,
+            stack: error.stack,
+            code: error.code,
+            errno: error.errno,
+            syscall: error.syscall
+          })
+        };
+      }
     }
 
     // Handle unsupported methods
     return {
       statusCode: 405,
-      headers,
-      body: JSON.stringify({ error: 'Method not allowed' }),
+      headers: {
+        ...headers,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ error: 'Method not allowed' })
     };
   } catch (error) {
     console.error('Error in handler:', error);
@@ -209,12 +233,18 @@ export const handler = async (event, context) => {
     // Return a more detailed error response
     return {
       statusCode: 500,
-      headers,
+      headers: {
+        ...headers,
+        'Content-Type': 'application/json'
+      },
       body: JSON.stringify({
         error: 'Internal server error',
-        message: error.message,
-        details: process.env.NODE_ENV === 'development' ? error.stack : undefined
-      }),
+        details: error.message,
+        stack: error.stack,
+        code: error.code,
+        errno: error.errno,
+        syscall: error.syscall
+      })
     };
   }
 }; 
