@@ -3,6 +3,7 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  background-color: #f5f5f5;
 }
 
 .App-header {
@@ -53,10 +54,11 @@
 .game-board,
 .market,
 .hand {
-  background-color: #f5f5f5;
+  background-color: white;
   border-radius: 8px;
   padding: 15px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e1e4e8;
 }
 
 .cards-container {
@@ -69,7 +71,7 @@
 
 .card {
   background-color: white;
-  border: 1px solid #ddd;
+  border: 1px solid #e1e4e8;
   border-radius: 4px;
   padding: 6px;
   width: 100px;
@@ -81,6 +83,7 @@
   transition: transform 0.2s;
   font-size: 0.75em;
   position: relative;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .card.stackable {
@@ -108,7 +111,7 @@
 
 .card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
   z-index: 1;
 }
 
@@ -124,29 +127,30 @@
   font-size: 0.9em;
   font-weight: bold;
   word-break: break-word;
+  color: #24292e;
 }
 
 .card-tier {
   font-size: 0.7em;
-  color: #666;
+  color: #586069;
 }
 
 .card-type {
   font-size: 0.8em;
-  color: #444;
+  color: #444d56;
   margin-bottom: 2px;
 }
 
 .card-cost {
   font-size: 0.8em;
-  color: #666;
+  color: #444d56;
   margin-bottom: 2px;
   word-break: break-word;
 }
 
 .card-effect {
   font-size: 0.7em;
-  color: #333;
+  color: #24292e;
   margin-bottom: 2px;
   line-height: 1.1;
   word-break: break-word;
@@ -169,8 +173,19 @@
 }
 
 .keyword {
-  background-color: #e0f7fa;
-  color: #006064;
+  background-color: #e1f5fe;
+  color: #0366d6;
+  padding: 1px 4px;
+  border-radius: 3px;
+  font-weight: 500;
+}
+
+.resource {
+  background-color: #f1f8ff;
+  color: #0366d6;
+  padding: 1px 4px;
+  border-radius: 3px;
+  font-weight: 500;
 }
 
 .card-vp {
