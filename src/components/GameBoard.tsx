@@ -2,10 +2,11 @@ import React from 'react';
 import { Card as CardType } from '../types/cards';
 import { GameState } from '../types/game';
 import Card from './Card';
+import './GameBoard.css';
 
 interface GameBoardProps {
   gameState: GameState;
-  onCardClick: (card: CardType) => void;
+  onCardClick: (card: CardType, event?: React.MouseEvent) => void;
 }
 
 const GameBoard: React.FC<GameBoardProps> = ({ gameState, onCardClick }) => {
@@ -23,7 +24,7 @@ const GameBoard: React.FC<GameBoardProps> = ({ gameState, onCardClick }) => {
             <Card
               key={`den-${index}`}
               card={cardGroup.card}
-              onClick={() => onCardClick(cardGroup.card)}
+              onClick={(e: React.MouseEvent) => onCardClick(cardGroup.card, e)}
               count={cardGroup.count}
             />
           ))}
@@ -36,7 +37,7 @@ const GameBoard: React.FC<GameBoardProps> = ({ gameState, onCardClick }) => {
             <Card
               key={`friend-${index}`}
               card={cardGroup.card}
-              onClick={() => onCardClick(cardGroup.card)}
+              onClick={(e: React.MouseEvent) => onCardClick(cardGroup.card, e)}
               count={cardGroup.count}
             />
           ))}
@@ -51,16 +52,16 @@ const groupStackableCards = (cards: CardType[]) => {
   const cardGroups: { card: CardType; count: number }[] = [];
   const processedCards = new Set<string>();
 
-  cards.forEach(card => {
+  cards.forEach((card) => {
     if (processedCards.has(card.name)) return;
-    
-    if (card.keywords.includes("Stackable")) {
-      const count = cards.filter(c => c.name === card.name).length;
+
+    if (card.keywords.includes('Stackable')) {
+      const count = cards.filter((c) => c.name === card.name).length;
       cardGroups.push({ card, count });
     } else {
       cardGroups.push({ card, count: 1 });
     }
-    
+
     processedCards.add(card.name);
   });
 
@@ -69,7 +70,7 @@ const groupStackableCards = (cards: CardType[]) => {
 
 // Helper function to count non-stackable cards
 const countNonStackableCards = (cards: CardType[]) => {
-  return cards.filter(card => !card.keywords.includes("Stackable")).length;
+  return cards.filter((card) => !card.keywords.includes('Stackable')).length;
 };
 
-export default GameBoard; 
+export default GameBoard;

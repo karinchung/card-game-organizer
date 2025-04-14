@@ -1,0 +1,36 @@
+.market {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.market-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.market-section h2 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.market-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.market-card {
+  position: relative;
+  transition: transform 0.2s;
+}
+
+.market-card:hover {
+  transform: translateY(-5px);
+}

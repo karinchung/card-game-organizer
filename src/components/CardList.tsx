@@ -17,4 +17,4 @@ const CardList: React.FC<CardListProps> = ({ cards }) => {
   );
 };
 
-export default CardList; 
+export default CardList;

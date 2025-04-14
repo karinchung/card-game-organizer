@@ -68,7 +68,15 @@
 }
 
 /* Tier-specific styling */
-.tier-section:nth-child(1) .tier-header { color: #808080; }
-.tier-section:nth-child(2) .tier-header { color: #4CAF50; }
-.tier-section:nth-child(3) .tier-header { color: #2196F3; }
-.tier-section:nth-child(4) .tier-header { color: #9C27B0; } 
+.tier-section:nth-child(1) .tier-header {
+  color: #808080;
+}
+.tier-section:nth-child(2) .tier-header {
+  color: #4caf50;
+}
+.tier-section:nth-child(3) .tier-header {
+  color: #2196f3;
+}
+.tier-section:nth-child(4) .tier-header {
+  color: #9c27b0;
+}

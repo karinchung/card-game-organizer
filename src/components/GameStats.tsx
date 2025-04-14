@@ -26,4 +26,4 @@ const GameStats: React.FC<GameStatsProps> = ({ food, trash, victoryPoints }) => 
   );
 };
 
-export default GameStats; 
+export default GameStats;
