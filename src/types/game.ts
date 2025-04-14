@@ -19,4 +19,4 @@ export interface GameLimits {
   maxDenCards: number;
   maxHandSize: number;
   marketRowSize: number;
-} 
+}

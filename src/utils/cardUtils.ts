@@ -32,4 +32,4 @@ export function convertToCard(rawCard: RawCard): Card {
 // Convert an array of raw cards to our Card type
 export function convertToCards(rawCards: RawCard[]): Card[] {
   return rawCards.map(convertToCard);
-} 
+}

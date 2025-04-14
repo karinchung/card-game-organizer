@@ -17,10 +17,18 @@
 }
 
 /* Tier colors with higher specificity */
-.card.basic { border-color: #808080 !important; }
-.card.tier-1 { border-color: #4CAF50 !important; }
-.card.tier-2 { border-color: #2196F3 !important; }
-.card.tier-3 { border-color: #9C27B0 !important; }
+.card.basic {
+  border-color: #808080 !important;
+}
+.card.tier-1 {
+  border-color: #4caf50 !important;
+}
+.card.tier-2 {
+  border-color: #2196f3 !important;
+}
+.card.tier-3 {
+  border-color: #9c27b0 !important;
+}
 
 .card-header {
   display: flex;
@@ -102,7 +110,7 @@
 
 .resource {
   background-color: rgba(76, 175, 80, 0.1);
-  color: #4CAF50;
+  color: #4caf50;
   padding: 2px 5px;
   border-radius: 4px;
   font-size: 0.75em;
@@ -116,7 +124,7 @@
 }
 
 .vp-value {
-  background-color: #4CAF50;
+  background-color: #4caf50;
   color: white;
   padding: 3px 6px;
   border-radius: 4px;
@@ -165,7 +173,7 @@
 
 .victory-points {
   display: inline-block;
-  background-color: #4CAF50;
+  background-color: #4caf50;
   color: white;
   padding: 3px 6px;
   border-radius: 4px;
@@ -178,4 +186,4 @@
   color: #888;
   font-size: 0.9em;
   margin-top: 5px;
-} 
+}

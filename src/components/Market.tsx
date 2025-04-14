@@ -2,10 +2,11 @@ import React from 'react';
 import { Card as CardType } from '../types/cards';
 import { GameState } from '../types/game';
 import Card from './Card';
+import './Market.css';
 
 interface MarketProps {
   gameState: GameState;
-  onCardClick: (card: CardType) => void;
+  onCardClick: (card: CardType, event?: React.MouseEvent) => void;
 }
 
 const Market: React.FC<MarketProps> = ({ gameState, onCardClick }) => {
@@ -25,7 +26,7 @@ const Market: React.FC<MarketProps> = ({ gameState, onCardClick }) => {
             <Card
               key={`free-${index}`}
               card={cardGroup.card}
-              onClick={() => onCardClick(cardGroup.card)}
+              onClick={(e: React.MouseEvent) => onCardClick(cardGroup.card, e)}
               count={cardGroup.count}
             />
           ))}
@@ -38,7 +39,7 @@ const Market: React.FC<MarketProps> = ({ gameState, onCardClick }) => {
             <Card
               key={`tier1-${index}`}
               card={cardGroup.card}
-              onClick={() => onCardClick(cardGroup.card)}
+              onClick={(e: React.MouseEvent) => onCardClick(cardGroup.card, e)}
               count={cardGroup.count}
             />
           ))}
@@ -51,7 +52,7 @@ const Market: React.FC<MarketProps> = ({ gameState, onCardClick }) => {
             <Card
               key={`tier2-${index}`}
               card={cardGroup.card}
-              onClick={() => onCardClick(cardGroup.card)}
+              onClick={(e: React.MouseEvent) => onCardClick(cardGroup.card, e)}
               count={cardGroup.count}
             />
           ))}
@@ -64,7 +65,7 @@ const Market: React.FC<MarketProps> = ({ gameState, onCardClick }) => {
             <Card
               key={`tier3-${index}`}
               card={cardGroup.card}
-              onClick={() => onCardClick(cardGroup.card)}
+              onClick={(e: React.MouseEvent) => onCardClick(cardGroup.card, e)}
               count={cardGroup.count}
             />
           ))}
@@ -79,20 +80,20 @@ const groupStackableCards = (cards: CardType[]) => {
   const cardGroups: { card: CardType; count: number }[] = [];
   const processedCards = new Set<string>();
 
-  cards.forEach(card => {
+  cards.forEach((card) => {
     if (processedCards.has(card.name)) return;
-    
-    if (card.keywords.includes("Stackable")) {
-      const count = cards.filter(c => c.name === card.name).length;
+
+    if (card.keywords.includes('Stackable')) {
+      const count = cards.filter((c) => c.name === card.name).length;
       cardGroups.push({ card, count });
     } else {
       cardGroups.push({ card, count: 1 });
     }
-    
+
     processedCards.add(card.name);
   });
 
   return cardGroups;
 };
 
-export default Market; 
+export default Market;

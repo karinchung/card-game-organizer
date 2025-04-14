@@ -28,8 +28,8 @@
   color: #61dafb;
 }
 
-.form-group input[type="text"],
-.form-group input[type="number"],
+.form-group input[type='text'],
+.form-group input[type='number'],
 .form-group select,
 .form-group textarea {
   width: 100%;
@@ -59,7 +59,7 @@
   cursor: pointer;
 }
 
-.checkbox-group input[type="checkbox"] {
+.checkbox-group input[type='checkbox'] {
   margin-right: 8px;
 }
 
@@ -97,4 +97,4 @@
 
 .save-button:hover {
   background-color: #4fa8d1;
-} 
+}

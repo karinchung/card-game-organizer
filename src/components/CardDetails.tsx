@@ -1,71 +1,118 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card } from '../types/cards';
+import CardForm from './CardForm';
 import './CardDetails.css';
 
 interface CardDetailsProps {
   card: Card;
-  onBack: () => void;
-  onEdit: (card: Card) => void;
+  onEditCard: (card: Card) => void;
+  onDeleteCard: (cardName: string) => void;
+  onClose: () => void;
 }
 
-const CardDetails: React.FC<CardDetailsProps> = ({ card, onBack, onEdit }) => {
+const CardDetails: React.FC<CardDetailsProps> = ({ card, onEditCard, onDeleteCard, onClose }) => {
+  const [isEditing, setIsEditing] = useState(false);
+
+  const handleEdit = () => {
+    setIsEditing(true);
+  };
+
+  const handleDelete = () => {
+    if (window.confirm(`Are you sure you want to delete the card "${card.name}"?`)) {
+      onDeleteCard(card.name);
+      onClose();
+    }
+  };
+
+  const handleSave = (updatedCard: Card) => {
+    onEditCard(updatedCard);
+    setIsEditing(false);
+  };
+
+  const handleCancel = () => {
+    setIsEditing(false);
+  };
+
+  if (isEditing) {
+    return <CardForm card={card} onSave={handleSave} onCancel={handleCancel} />;
+  }
+
   return (
     <div className="card-details">
       <div className="card-details-header">
-        <button className="back-button" onClick={onBack}>
-          ← Back to List
-        </button>
-        <button className="edit-button" onClick={() => onEdit(card)}>
-          Edit Card
-        </button>
+        <h2>{card.name}</h2>
+        <div className="card-details-actions">
+          <button className="edit-button" onClick={handleEdit}>
+            Edit
+          </button>
+          <button className="delete-button" onClick={handleDelete}>
+            Delete
+          </button>
+          <button className="close-button" onClick={onClose}>
+            Close
+          </button>
+        </div>
       </div>
-      
-      <div className={`card-details-content ${card.tier.toLowerCase().replace(' ', '-')}`}>
-        <div className="card-details-header-info">
-          <h2 className="card-details-name">{card.name}</h2>
-          <span className="card-details-cost">{card.cost}</span>
+      <div className="card-details-content">
+        <div className="card-details-section">
+          <h3>Card Information</h3>
+          <p>
+            <strong>Type:</strong> {card.cardType}
+          </p>
+          <p>
+            <strong>Tier:</strong> {card.tier}
+          </p>
+          <p>
+            <strong>Description:</strong> {card.effect}
+          </p>
         </div>
-        
-        <div className="card-details-tier">
-          <span className="tier-badge">{card.tier}</span>
-        </div>
-        
-        <div className="card-details-type">
-          <strong>Type:</strong> {card.cardType} {card.resourceType.join(', ')}
-        </div>
-        
-        <div className="card-details-effect">
-          <strong>Effect:</strong> {card.effect}
-        </div>
-        
-        {card.keywords.length > 0 && (
-          <div className="card-details-keywords">
-            <strong>Keywords:</strong> {card.keywords.join(', ')}
-          </div>
-        )}
-        
-        {card.effect_values?.vp > 0 && (
-          <div className="card-detail">
-            <span className="card-detail-label">Victory Points:</span>
-            <span className="card-detail-value">{card.effect_values.vp}</span>
-            {card.victoryPointsText && (
-              <span className="card-detail-text">({card.victoryPointsText})</span>
+
+        {card.cost_values && (
+          <div className="card-details-section">
+            <h3>Cost</h3>
+            {card.cost_values.food > 0 && (
+              <p>
+                <strong>Food:</strong> {card.cost_values.food}
+              </p>
+            )}
+            {card.cost_values.trash > 0 && (
+              <p>
+                <strong>Trash:</strong> {card.cost_values.trash}
+              </p>
             )}
           </div>
         )}
-        
-        {card.flavor && (
-          <div className="card-details-flavor">
-            <em>{card.flavor}</em>
+
+        {card.effect_values && (
+          <div className="card-details-section">
+            <h3>Effect</h3>
+            {card.effect_values.food > 0 && (
+              <p>
+                <strong>Food:</strong> +{card.effect_values.food}
+              </p>
+            )}
+            {card.effect_values.trash > 0 && (
+              <p>
+                <strong>Trash:</strong> +{card.effect_values.trash}
+              </p>
+            )}
+            {card.effect_values.vp > 0 && (
+              <p>
+                <strong>Victory Points:</strong> +{card.effect_values.vp}
+              </p>
+            )}
           </div>
         )}
-        
-        <div className="card-details-quantity">
-          <strong>Quantity:</strong> {card.quantity}
-        </div>
+
+        {card.resourceType && (
+          <div className="card-details-section">
+            <h3>Resource Type</h3>
+            <p>{card.resourceType.join(', ')}</p>
+          </div>
+        )}
       </div>
     </div>
   );
 };
 
-export default CardDetails; 
+export default CardDetails;

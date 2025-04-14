@@ -4,86 +4,100 @@ import './CardForm.css';
 
 interface CardFormProps {
   card?: Card;
-  onSubmit: (card: Card) => void;
-  onCancel: () => void;
+  onSubmit?: (card: Card) => void;
+  onCancel?: () => void;
+  onSave?: (card: Card) => void;
 }
 
-const CardForm: React.FC<CardFormProps> = ({ card, onSubmit, onCancel }) => {
+const CardForm: React.FC<CardFormProps> = ({ card, onSubmit, onCancel, onSave }) => {
   const [formData, setFormData] = useState<Card>({
     name: card?.name || '',
     tier: card?.tier || 'Basic',
     cost: card?.cost || '0',
     cost_values: card?.cost_values || {
       food: 0,
-      trash: 0
+      trash: 0,
     },
     cost_text: card?.cost_text || '',
     effect: card?.effect || '',
     effect_values: card?.effect_values || {
       food: 0,
       trash: 0,
-      vp: 0
+      vp: 0,
     },
     keywords: card?.keywords || [],
     resourceType: card?.resourceType || [],
     cardType: card?.cardType || 'Resource',
     flavor: card?.flavor || '',
     quantity: card?.quantity || 1,
-    victoryPointsText: card?.victoryPointsText || ''
+    victoryPointsText: card?.victoryPointsText || '',
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+  ) => {
     const { name, value, type } = e.target;
-    
+
     if (type === 'checkbox') {
       const checkbox = e.target as HTMLInputElement;
       if (name === 'resourceType' || name === 'keywords') {
         const currentValues = formData[name as keyof Card] as string[];
         const newValues = checkbox.checked
           ? [...currentValues, value]
-          : currentValues.filter(v => v !== value);
-        setFormData(prev => ({ ...prev, [name]: newValues }));
+          : currentValues.filter((v) => v !== value);
+        setFormData((prev) => ({ ...prev, [name]: newValues }));
       }
     } else if (name === 'vp') {
-      setFormData(prev => ({
+      setFormData((prev) => ({
         ...prev,
         effect_values: {
           ...prev.effect_values,
-          vp: Number(value)
-        }
+          vp: Number(value),
+        },
       }));
     } else if (name === 'cost_food') {
-      setFormData(prev => ({
+      setFormData((prev) => ({
         ...prev,
         cost_values: {
           ...prev.cost_values,
-          food: Number(value)
-        }
+          food: Number(value),
+        },
       }));
     } else if (name === 'cost_trash') {
-      setFormData(prev => ({
+      setFormData((prev) => ({
         ...prev,
         cost_values: {
           ...prev.cost_values,
-          trash: Number(value)
-        }
+          trash: Number(value),
+        },
       }));
     } else {
-      setFormData(prev => ({
+      setFormData((prev) => ({
         ...prev,
-        [name]: type === 'number' ? Number(value) : value
+        [name]: type === 'number' ? Number(value) : value,
       }));
     }
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit(formData);
+    if (onSubmit) {
+      onSubmit(formData);
+    }
+    if (onSave) {
+      onSave(formData);
+    }
+  };
+
+  const handleCancel = () => {
+    if (onCancel) {
+      onCancel();
+    }
   };
 
   return (
     <div className="card-form-container">
-      <h2>{card ? 'Edit Card' : 'Add New Card'}</h2>
+      <h2>{card?.name ? `Edit ${card.name}` : 'Add New Card'}</h2>
       <form className="card-form" onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="name">Card Name</label>
@@ -99,12 +113,7 @@ const CardForm: React.FC<CardFormProps> = ({ card, onSubmit, onCancel }) => {
 
         <div className="form-group">
           <label htmlFor="tier">Tier</label>
-          <select
-            id="tier"
-            name="tier"
-            value={formData.tier}
-            onChange={handleChange}
-          >
+          <select id="tier" name="tier" value={formData.tier} onChange={handleChange}>
             <option value="Basic">Basic</option>
             <option value="Tier 1">Tier 1</option>
             <option value="Tier 2">Tier 2</option>
@@ -114,13 +123,7 @@ const CardForm: React.FC<CardFormProps> = ({ card, onSubmit, onCancel }) => {
 
         <div className="form-group">
           <label htmlFor="cost">Cost</label>
-          <input
-            type="text"
-            id="cost"
-            name="cost"
-            value={formData.cost}
-            onChange={handleChange}
-          />
+          <input type="text" id="cost" name="cost" value={formData.cost} onChange={handleChange} />
         </div>
 
         <div className="form-group">
@@ -163,12 +166,7 @@ const CardForm: React.FC<CardFormProps> = ({ card, onSubmit, onCancel }) => {
 
         <div className="form-group">
           <label htmlFor="cardType">Card Type</label>
-          <select
-            id="cardType"
-            name="cardType"
-            value={formData.cardType}
-            onChange={handleChange}
-          >
+          <select id="cardType" name="cardType" value={formData.cardType} onChange={handleChange}>
             <option value="Resource">Resource</option>
             <option value="Den">Den</option>
             <option value="">Other</option>
@@ -178,7 +176,7 @@ const CardForm: React.FC<CardFormProps> = ({ card, onSubmit, onCancel }) => {
         <div className="form-group">
           <label>Resource Types</label>
           <div className="checkbox-group">
-            {['Food', 'Trash'].map(type => (
+            {['Food', 'Trash'].map((type) => (
               <label key={type}>
                 <input
                   type="checkbox"
@@ -195,18 +193,13 @@ const CardForm: React.FC<CardFormProps> = ({ card, onSubmit, onCancel }) => {
 
         <div className="form-group">
           <label htmlFor="effect">Effect</label>
-          <textarea
-            id="effect"
-            name="effect"
-            value={formData.effect}
-            onChange={handleChange}
-          />
+          <textarea id="effect" name="effect" value={formData.effect} onChange={handleChange} />
         </div>
 
         <div className="form-group">
           <label>Keywords</label>
           <div className="checkbox-group">
-            {['Stackable', 'Shiny', 'Spiritual', 'Friend', 'Metal'].map(keyword => (
+            {['Stackable', 'Shiny', 'Spiritual', 'Friend', 'Metal'].map((keyword) => (
               <label key={keyword}>
                 <input
                   type="checkbox"
@@ -235,12 +228,7 @@ const CardForm: React.FC<CardFormProps> = ({ card, onSubmit, onCancel }) => {
 
         <div className="form-group">
           <label htmlFor="flavor">Flavor Text</label>
-          <textarea
-            id="flavor"
-            name="flavor"
-            value={formData.flavor}
-            onChange={handleChange}
-          />
+          <textarea id="flavor" name="flavor" value={formData.flavor} onChange={handleChange} />
         </div>
 
         <div className="form-group">
@@ -256,10 +244,10 @@ const CardForm: React.FC<CardFormProps> = ({ card, onSubmit, onCancel }) => {
         </div>
 
         <div className="form-actions">
-          <button type="submit" className="submit-button">
-            {card ? 'Save Changes' : 'Add Card'}
+          <button type="submit" className="save-button">
+            Save
           </button>
-          <button type="button" className="cancel-button" onClick={onCancel}>
+          <button type="button" className="cancel-button" onClick={handleCancel}>
             Cancel
           </button>
         </div>
@@ -268,4 +256,4 @@ const CardForm: React.FC<CardFormProps> = ({ card, onSubmit, onCancel }) => {
   );
 };
 
-export default CardForm; 
+export default CardForm;

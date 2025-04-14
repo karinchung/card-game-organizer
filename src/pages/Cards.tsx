@@ -6,11 +6,12 @@ import CardForm from '../components/CardForm';
 import './Cards.css';
 
 interface CardsProps {
-  cards: Card[];
+  allCards: Card[] | undefined;
   onEditCard: (card: Card) => void;
+  onDeleteCard: (cardName: string) => void;
 }
 
-const Cards: React.FC<CardsProps> = ({ cards, onEditCard }) => {
+const Cards: React.FC<CardsProps> = ({ allCards, onEditCard, onDeleteCard }) => {
   const [selectedCard, setSelectedCard] = useState<Card | null>(null);
   const [editingCard, setEditingCard] = useState<Card | null>(null);
 
@@ -18,7 +19,7 @@ const Cards: React.FC<CardsProps> = ({ cards, onEditCard }) => {
     setSelectedCard(card);
   };
 
-  const handleBack = () => {
+  const handleClose = () => {
     setSelectedCard(null);
   };
 
@@ -36,38 +37,31 @@ const Cards: React.FC<CardsProps> = ({ cards, onEditCard }) => {
   };
 
   if (editingCard) {
-    return (
-      <CardForm
-        card={editingCard}
-        onSubmit={handleFormSubmit}
-        onCancel={handleFormCancel}
-      />
-    );
+    return <CardForm card={editingCard} onSubmit={handleFormSubmit} onCancel={handleFormCancel} />;
   }
 
   return (
     <div className="cards-page">
       <header className="cards-header">
         <h1>All Cards</h1>
-        <button className="add-card-button" onClick={() => handleEdit({} as Card)}>
-          Add New Card
-        </button>
+        {!selectedCard && (
+          <button className="add-card-button" onClick={() => handleEdit({} as Card)}>
+            Add New Card
+          </button>
+        )}
       </header>
       {selectedCard ? (
         <CardDetails
           card={selectedCard}
-          onBack={handleBack}
-          onEdit={handleEdit}
+          onEditCard={handleEdit}
+          onDeleteCard={onDeleteCard}
+          onClose={handleClose}
         />
       ) : (
-        <CardTable
-          cards={cards}
-          onCardClick={handleCardClick}
-          onEditCard={handleEdit}
-        />
+        <CardTable cards={allCards || []} onCardClick={handleCardClick} onEditCard={handleEdit} />
       )}
     </div>
   );
 };
 
-export default Cards; 
+export default Cards;

@@ -50,7 +50,9 @@
   width: 100%;
 }
 
-.game-board, .market, .hand {
+.game-board,
+.market,
+.hand {
   background-color: #f5f5f5;
   border-radius: 8px;
   padding: 15px;
@@ -150,14 +152,16 @@
   word-break: break-word;
 }
 
-.card-keywords, .card-resources {
+.card-keywords,
+.card-resources {
   display: flex;
   flex-wrap: wrap;
   gap: 1px;
   margin-bottom: 2px;
 }
 
-.keyword, .resource {
+.keyword,
+.resource {
   font-size: 0.65em;
   background-color: #e0e0e0;
   padding: 0px 2px;
@@ -265,4 +269,4 @@ h2 {
 
 .nav-link.active {
   background-color: rgba(97, 218, 251, 0.2);
-} 
+}
