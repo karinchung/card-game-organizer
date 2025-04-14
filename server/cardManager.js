@@ -3,8 +3,18 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import lockfile from 'proper-lockfile';
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const CARDS_PATH = path.join(__dirname, '..', 'data', 'cards.json');
+// Get the correct path for both local and Netlify environments
+const getCardsPath = () => {
+  try {
+    const __dirname = path.dirname(fileURLToPath(import.meta.url));
+    return path.join(__dirname, '..', 'data', 'cards.json');
+  } catch (error) {
+    // Fallback for Netlify environment
+    return path.join(process.cwd(), 'data', 'cards.json');
+  }
+};
+
+const CARDS_PATH = getCardsPath();
 
 // In-memory cache
 let cardsCache = null;

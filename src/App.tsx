@@ -12,7 +12,9 @@ import useSWR from 'swr';
 import './App.css';
 
 // Use environment variable for API URL, fallback to localhost for development
-const API_URL = process.env.API_URL || 'http://localhost:3001/api';
+const API_URL = process.env.NODE_ENV === 'production' 
+  ? '/.netlify/functions/api'
+  : 'http://localhost:3001/api';
 
 // Fetcher function for SWR
 const fetcher = async (url: string) => {

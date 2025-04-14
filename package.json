@@ -12,7 +12,8 @@
     "start": "concurrently \"npm run server\" \"vite preview\"",
     "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx,json,css,scss,md}\"",
     "lint": "eslint \"src/**/*.{js,jsx,ts,tsx}\"",
-    "lint:fix": "eslint \"src/**/*.{js,jsx,ts,tsx}\" --fix"
+    "lint:fix": "eslint \"src/**/*.{js,jsx,ts,tsx}\" --fix",
+    "netlify:dev": "netlify dev"
   },
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
