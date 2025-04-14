@@ -19,4 +19,5 @@
 [functions]
   directory = "netlify/functions"
   node_bundler = "esbuild"
-  external_node_modules = ["proper-lockfile"] 
+  external_node_modules = ["proper-lockfile"]
+  included_files = ["netlify/functions/data/*.json"] 

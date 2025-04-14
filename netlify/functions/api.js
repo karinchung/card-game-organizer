@@ -12,6 +12,7 @@ const getCardsPath = () => {
 };
 
 const CARDS_PATH = getCardsPath();
+console.log('Cards path:', CARDS_PATH);
 
 // In-memory cache
 let cardsCache = null;
@@ -22,24 +23,28 @@ async function getCards() {
   try {
     // Check cache first
     if (cardsCache && (Date.now() - lastCacheTime < CACHE_TTL)) {
+      console.log('Returning cached cards data');
       return cardsCache;
     }
 
+    console.log('Reading cards from file:', CARDS_PATH);
     const data = await fs.readFile(CARDS_PATH, 'utf8');
+    console.log('Successfully read cards file');
+    
     const parsedData = JSON.parse(data);
+    console.log('Successfully parsed cards data');
     
     // Ensure we have a valid cards array
     if (!parsedData || !parsedData.cards || !Array.isArray(parsedData.cards)) {
-      // Return a default structure if the data is invalid
-      return { cards: [] };
+      throw new Error('Invalid cards data structure');
     }
     
     cardsCache = parsedData;
     lastCacheTime = Date.now();
     return cardsCache;
   } catch (error) {
-    // Return a default structure if there's an error
-    return { cards: [] };
+    console.error('Error in getCards:', error);
+    throw error;
   }
 }
 
@@ -78,6 +83,8 @@ async function updateCards(newCards) {
 }
 
 export const handler = async (event, context) => {
+  console.log('API function called with method:', event.httpMethod);
+  
   // Set CORS headers
   const headers = {
     'Access-Control-Allow-Origin': '*',
@@ -97,7 +104,9 @@ export const handler = async (event, context) => {
   try {
     // Handle GET request to fetch cards
     if (event.httpMethod === 'GET') {
+      console.log('Processing GET request');
       const cardsData = await getCards();
+      console.log('Cards data retrieved successfully');
       
       return {
         statusCode: 200,
@@ -133,13 +142,18 @@ export const handler = async (event, context) => {
       body: JSON.stringify({ error: 'Method not allowed' }),
     };
   } catch (error) {
+    console.error('Error in handler:', error);
     return {
       statusCode: 500,
       headers: {
         ...headers,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ error: 'Internal server error' }),
+      body: JSON.stringify({ 
+        error: 'Internal server error',
+        message: error.message,
+        stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
+      }),
     };
   }
 }; 

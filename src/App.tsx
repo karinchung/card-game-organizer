@@ -19,13 +19,20 @@ const API_URL = process.env.NODE_ENV === 'production'
 // Fetcher function for SWR
 const fetcher = async (url: string) => {
   try {
+    console.log('Fetching from URL:', url);
     const response = await fetch(url);
+    console.log('Response status:', response.status);
+    
     if (!response.ok) {
       console.error(`API error: ${response.status}`);
+      const errorText = await response.text();
+      console.error('Error response:', errorText);
       // Return an empty array instead of throwing an error
       return [];
     }
+    
     const data = await response.json();
+    console.log('API response data:', data);
     
     // Check if data has the expected structure
     if (!data || !data.cards || !Array.isArray(data.cards)) {
@@ -34,7 +41,9 @@ const fetcher = async (url: string) => {
       return [];
     }
     
-    return convertToCards(data.cards);
+    const convertedCards = convertToCards(data.cards);
+    console.log('Converted cards:', convertedCards.length);
+    return convertedCards;
   } catch (error) {
     console.error('Error fetching cards:', error);
     // Return an empty array on any error
